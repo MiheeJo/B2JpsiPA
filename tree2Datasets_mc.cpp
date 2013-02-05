@@ -882,9 +882,7 @@ int main(int argc, char* argv[]) {
           if (Jpsi.Jq == 0){ Jpsi_Sign->setIndex(Jpsi.Jq,kTRUE); }
           else { Jpsi_Sign->setIndex(Jpsi.Jq,kTRUE); }
           Jpsi_CtTrue->setVal(Jpsi.theCtTrue);
-//          MCType->setIndex(Jpsi.genType,kTRUE);   //original
-          MCType->setIndex(0,kTRUE);   //prompt for 0
-//          MCType->setIndex(1,kTRUE);   //non-prompt for 1
+          MCType->setIndex(Jpsi.genType,kTRUE);   //original, prompt for 0, non-prompt for 1
 
   /*        RooArgList varlist_tmp(*Jpsi_Mass,*Jpsi_Pt,*Jpsi_Y,*Jpsi_Type,*Jpsi_Sign,*Jpsi_Ct,*Jpsi_CtErr);
           RooArgList varlist2_tmp(*Psip_Mass,*Jpsi_Pt,*Jpsi_Y,*Jpsi_Type,*Jpsi_Sign,*Jpsi_Ct,*Jpsi_CtErr);*/
