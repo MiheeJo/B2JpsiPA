@@ -39,13 +39,18 @@ int main (int argc, char* argv[]) {
 
   gROOT->Macro("/afs/cern.ch/user/m/miheejo/public/JpsiV2/JpsiStyle.C");
 
-  string dirPre = argv[1];
-  string outputFile = "ctauErrRange_" +dirPre+ ".txt";
-  ofstream output(outputFile.c_str());
-  if (!output.good()) {cout << "Fail to open result file." << endl; return 1;}
-
-  string rapbins[] = {"-2.4--0.47","-0.47-1.46"};
+//  string rapbins[] =  {"-2.4--0.47","-0.47-1.46","-2.4--2.014","-2.014--1.628","-1.628--1.242","-1.242--0.856","-0.856--0.47","-0.47--0.084","-0.084-0.302","0.302-0.688","0.688-1.074","1.074-1.46", "1.46-1.93","1.93-2.4", "1.46-2.4","-1.47-1.46","-1.47-0.53"};
+  vector<string> rapbins;
+  for (int i=3; i<argc; i++) rapbins.push_back(argv[i]);
+  if (argc > 4) {
+    cout << "Put 1 rapidity region only. exit." << endl;
+    return -2;
+  }
   string ptbins[] = {"0.0-6.5", "6.5-30.0", "10.0-30.0", "6.5-10.0", "3.0-6.5", "6.5-8.0", "8.0-10.0", "10.0-13.0", "13.0-30.0", "6.5-7.5", "7.5-8.5", "8.5-9.5", "9.5-10.5", "10.5-11.5", "11.5-13.0", "13.0-18.0", "18.0-30.0"};
+  string ptbinscorser[] = {"0.0-6.5", "6.5-30.0", "10.0-30.0", "6.5-10.0", "3.0-6.5", "6.5-8.0", "8.0-10.0", "10.0-13.0", "13.0-30.0"};
+  string ptbinsfiner[] = {"6.5-7.5", "7.5-8.5", "8.5-9.5", "9.5-10.5", "10.5-11.5", "11.5-13.0", "13.0-18.0", "18.0-30.0"};
+  vector<string> ptVectorFiner(ptbinsfiner, ptbinsfiner+sizeof(ptbinsfiner)/sizeof(string));
+  vector<string> ptVectorCorser(ptbinscorser, ptbinscorser+sizeof(ptbinscorser)/sizeof(string));
   string centbins[] = {"0-100", "0-5", "5-10", "10-15", "15-20", "20-25", "25-30", "30-35", "35-40", "40-45", "45-50", "50-55", "55-60", "60-65", "65-70", "70-100", "0-10", "10-20", "20-30", "30-40", "40-50", "50-100", "50-60", "60-70", "60-100", "70-100", "0-1","1-2","2-4","4-6","6-8","8-10","10-12","12-15","15-18","18-21","21-24","24-27","27-30","30-33","33-36","36-39","39-42","42-45","45-48","48-51","51-54","54-57","57-60","60-65","65-70","70-75","75-80","80-100","70-80","50-70"};
   string centbinscorser[] = {"0-100", "0-5", "5-10", "10-15", "15-20", "20-25", "25-30", "30-35", "35-40", "40-45", "45-50", "50-55", "55-60", "60-65", "65-70", "70-100", "0-10", "10-20", "20-30", "30-40", "40-50", "50-100", "50-60", "60-70", "60-100", "70-100","70-80","80-100","50-70"};
   string centbinsfiner[] = {"0-1","1-2","2-4","4-6","6-8","8-10","10-12","12-15","15-18","18-21","21-24","24-27","27-30","30-33","33-36","36-39","39-42","42-45","45-48","48-51","51-54","54-57","57-60","60-65","65-70","70-75","75-80"};
@@ -53,16 +58,13 @@ int main (int argc, char* argv[]) {
   vector<string> centVectorCorser(centbinscorser, centbinscorser+sizeof(centbinscorser)/sizeof(string));
   string dphibins[] = {"0.000-1.571"};
 
-//  string rapbins[] = {"0.0-2.4", "0.0-0.6", "0.6-1.2", "1.2-1.5", "1.5-1.8", "1.8-2.4", "1.2-1.8"};
-//  string ptbins[] = {"3.0-6.5", "3.0-30.0", "5.5-30.0", "6.5-30.0", "6.5-8.0", "8.0-10.0","10.0-13.0","13.0-30.0", "10.0-30.0", "6.5-10.0"};
-//  string centbins[] = {"0-100","0-5","5-10","10-15","15-20","20-25","25-30","30-35","35-40","40-45","45-50","50-60","60-70","70-100","0-10","10-20","20-30","30-40","40-50","50-100","60-100","30-60","10-60","0-20","20-100","20-40","40-100","20-50","30-50"};
-//  string rapbins[] = {"0.0-2.4", "0.0-1.2", "1.2-1.6", "1.6-2.4", "0.0-1.6"};
-//  string ptbins[] = {"3.0-6.5", "3.0-40.0", "5.5-30.0", "6.5-40.0", "6.5-8.0", "8.0-10.0","10.0-13.0","13.0-40.0", "10.0-40.0", "6.5-10.0"};
-//  string centbins[] = {"0-100","0-10","10-20","20-30","30-60","60-100","10-60"};
-//  string dphibins[] = {"0.000-1.571", "0.000-0.393", "0.393-0.785", "0.785-1.178", "1.178-1.571", "0.000-0.785", "0.785-1.571"};
-//  string dphibins[] = {"0.000-1.571", "0.000-0.785", "0.785-1.571"};
+  string dirPre = argv[1];
+  string outputFile = "ctauErrRange_" +dirPre+ "_" +rapbins[0]+ ".txt";
+  ofstream output(outputFile.c_str());
+  if (!output.good()) {cout << "Fail to open result file." << endl; return 1;}
 
-  const int nRaps = sizeof(rapbins)/sizeof(string);
+//  const int nRaps = sizeof(rapbins)/sizeof(string);
+  const int nRaps = rapbins.size();
   const int nPt = sizeof(ptbins)/sizeof(string);
   const int nCent = sizeof(centbins)/sizeof(string);
   const int ndPhi = sizeof(dphibins)/sizeof(string);
@@ -86,24 +88,18 @@ int main (int argc, char* argv[]) {
       getOptRange(yrange,&ymin,&ymax);
       getOptRange(phirange,&psmin,&psmax);
 
-/*      if (yrange.compare("1.6-2.4") && !prange.compare("3.0-6.5")) continue;
-      if (yrange.compare("1.6-2.4") && !prange.compare("3.0-40.0")) continue;
-      if (yrange.compare("1.2-1.6") && !prange.compare("5.5-30.0")) continue;
-      if (yrange.compare("0.0-2.4") && (!prange.compare("6.5-8.0") || !prange.compare("8.0-10.0") || !prange.compare("10.0-13.0") || !prange.compare("13.0-30.0"))) continue;
-      if (yrange.compare("0.0-2.4") &&
-         (!crange.compare("0-5") || !crange.compare("5-10") ||
-          !crange.compare("10-15") || !crange.compare("15-20") ||
-          !crange.compare("20-25") || !crange.compare("25-30") ||
-          !crange.compare("30-35") || !crange.compare("35-40") ||
-          !crange.compare("40-45") || !crange.compare("45-50") ||
-          !crange.compare("50-60") || !crange.compare("60-70") ||
-          !crange.compare("70-100"))
+      // skip finer cent binnings, pT binnings for finer rapidity binnigs
+      if ( (yrange.compare("-2.4--0.47") && yrange.compare("-0.47-1.46") && yrange.compare("-2.4-1.46") ) &&
+            (find(centVectorFiner.begin(), centVectorFiner.end(), crange)!=centVectorFiner.end() || 
+             find(ptVectorFiner.begin(), ptVectorFiner.end(), prange)!=ptVectorFiner.end())
          ) continue;
-*/
-      cout << "yRange: " << yrange << endl;
       // skip finer cent binnings if pT range is NOT [6.5, 30.0]
       if ( prange.compare("6.5-30.0") && (find(centVectorFiner.begin(), centVectorFiner.end(), crange)!=centVectorFiner.end()) ) continue;
-      cout << "after skipping yRange: " << yrange << endl;
+      // skip finer cent binnings + finer pT binnings in the integrated rapidity bins
+      if ( !yrange.compare("-2.4--0.47") && !yrange.compare("-0.47-1.46") && !yrange.compare("-2.4-1.46") && 
+           find(centVectorFiner.begin(), centVectorFiner.end(), crange)!=centVectorFiner.end() &&
+           find(ptVectorFiner.begin(), ptVectorFiner.end(), prange)!=ptVectorFiner.end() 
+         ) continue;
 
       // *** Read Data files
       string dataset = argv[2];

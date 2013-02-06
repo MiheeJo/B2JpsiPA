@@ -52,8 +52,8 @@ static bool doWeighting = false;
 //0: don't care about RPAng, 1: Pick events with RPAng != -10
 static bool checkRPNUM = true;
 
-static const double Jpsi_MassMin=2.6;
-static const double Jpsi_MassMax=3.5;
+static const double Jpsi_MassMin=3.4;
+static const double Jpsi_MassMax=4.0;
 static const double Jpsi_PtMin=0.0;
 static const double Jpsi_PtMax=100;
 static const double Jpsi_YMin=0;
@@ -173,6 +173,8 @@ int main(int argc, char* argv[]) {
   int cent80Arr[] = {0,10,20,30,40,50,60,70,80,100};
   int cent805Arr[] = {0,5,10,15,20,25,30,35,40,45,50,55,60,65,70,80,100};
   int cent901235Arr[] = {0,1,2,4,6,8,10,12,15,18,21,24,27,30,33,36,39,42,45,48,51,54,57,60,65,70,75,80,90,100};
+  int cent20Arr[] = {0,20,40,60,100};
+  int cent3050Arr[] = {0,10,20,30,50,100};
   
   int cent1Arr[] = {-1,0}; //pp
   vector<int> centLimits;
@@ -208,6 +210,12 @@ int main(int argc, char* argv[]) {
   } else if (centInput == 901235) {
     int arrSize = sizeof(cent901235Arr)/sizeof(int);
     for (int i=0; i<arrSize; i++) centLimits.push_back(cent901235Arr[i]);
+  } else if (centInput == 20) {
+    int arrSize = sizeof(cent20Arr)/sizeof(int);
+    for (int i=0; i<arrSize; i++) centLimits.push_back(cent20Arr[i]);
+  } else if (centInput == 3050) {
+    int arrSize = sizeof(cent3050Arr)/sizeof(int);
+    for (int i=0; i<arrSize; i++) centLimits.push_back(cent3050Arr[i]);
   } else if (centInput == 1) {
     int arrSize = sizeof(cent1Arr)/sizeof(int);
     for (int i=0; i<arrSize; i++) centLimits.push_back(cent1Arr[i]);
@@ -814,7 +822,7 @@ int main(int argc, char* argv[]) {
                 if( (k==dPhiRegions && Jpsi_dPhi->getVal() < dPhiLimits[k] && Jpsi_dPhi->getVal() >= dPhiLimits[0]) ||
                     (k!=dPhiRegions && Jpsi_dPhi->getVal() < dPhiLimits[k+1] && Jpsi_dPhi->getVal() >= dPhiLimits[k]) ) {
                   if (Jpsi.Jq == 0) {
-                    if (Jpsi.theMass < 3.5) {
+                    if (Jpsi.theMass < 4.0) {
                       dataJpsi[j][k]->add(varlist_tmp);
                       if (doWeighting) dataJpsiW[j][k]->add(varlistW_tmp);
                       PassingEvent[j][k]->Fill(1);
@@ -823,12 +831,12 @@ int main(int argc, char* argv[]) {
                       dataPsip[j][k]->add(varlist2_tmp);
                       if (doWeighting) dataPsipW[j][k]->add(varlist2W_tmp);
                     }
-                    if (Jpsi.theMass > 2.9 && Jpsi.theMass < 3.3)
+                    if (Jpsi.theMass > 3.55 && Jpsi.theMass < 3.85)
                       hSig[j][k]->Fill(Jpsi.theCtErr);
-                    else if (Jpsi.theMass < 2.9 || Jpsi.theMass > 3.3)
+                    else if (Jpsi.theMass < 3.55 || Jpsi.theMass > 3.85)
                       hBkg[j][k]->Fill(Jpsi.theCtErr);
                   } else {
-                    if (Jpsi.theMass < 3.5) {
+                    if (Jpsi.theMass < 4.0) {
                       dataJpsiSame[j][k]->add(varlist_tmp);
                       if (doWeighting) dataJpsiSameW[j][k]->add(varlistW_tmp);
                     }
@@ -874,7 +882,7 @@ int main(int argc, char* argv[]) {
             if( (k==dPhiRegions && Jpsi_dPhi->getVal() < dPhiLimits[k] && Jpsi_dPhi->getVal() >= dPhiLimits[0]) ||
                 (k!=dPhiRegions && Jpsi_dPhi->getVal() < dPhiLimits[k+1] && Jpsi_dPhi->getVal() >= dPhiLimits[k]) ) {
               if (mostJpsi.Jq == 0) {
-                if (mostJpsi.theMass < 3.5) {
+                if (mostJpsi.theMass < 4.0) {
                   dataJpsi[j][k]->add(varlist_tmp);
                   if (doWeighting) dataJpsiW[j][k]->add(varlistW_tmp);
                   PassingEvent[j][k]->Fill(1);
@@ -883,12 +891,12 @@ int main(int argc, char* argv[]) {
                   dataPsip[j][k]->add(varlist2_tmp);
                   if (doWeighting) dataPsipW[j][k]->add(varlist2W_tmp);
                 }
-                if (mostJpsi.theMass > 2.9 && mostJpsi.theMass < 3.3)
+                if (mostJpsi.theMass > 3.55 && mostJpsi.theMass < 3.85)
                   hSig[j][k]->Fill(mostJpsi.theCtErr);
-                else if (mostJpsi.theMass < 2.9 || mostJpsi.theMass > 3.3)
+                else if (mostJpsi.theMass < 2.55 || mostJpsi.theMass > 3.85)
                   hBkg[j][k]->Fill(mostJpsi.theCtErr);
               } else {
-                if (mostJpsi.theMass < 3.5) {
+                if (mostJpsi.theMass < 4.0) {
                   dataJpsiSame[j][k]->add(varlist_tmp);
                   if (doWeighting) dataJpsiSameW[j][k]->add(varlistW_tmp);
                 }

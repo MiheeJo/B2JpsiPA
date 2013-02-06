@@ -29,6 +29,9 @@ RooExp2.o: $(INCLUDEDIR)/RooExp2.cpp
 Tree2Datasets:	$(INCLUDEDIR)tree2Datasets.cpp
 	$(CPP) $(CPPFLAGS) -o Tree2Datasets $(GLIBS) $ $<
 
+Tree2DatasetsPsi2s:	$(INCLUDEDIR)tree2Datasets_psi2s.cpp
+	$(CPP) $(CPPFLAGS) -o Tree2DatasetsPsi2s $(GLIBS) $ $<
+
 Tree2DatasetsMC:	$(INCLUDEDIR)tree2Datasets_mc.cpp
 	$(CPP) $(CPPFLAGS) -o Tree2DatasetsMC $(GLIBS) $ $<
 
