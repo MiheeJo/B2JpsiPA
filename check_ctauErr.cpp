@@ -46,13 +46,13 @@ int main (int argc, char* argv[]) {
     cout << "Put 1 rapidity region only. exit." << endl;
     return -2;
   }
-  string ptbins[] = {"0.0-6.5", "6.5-30.0", "10.0-30.0", "6.5-10.0", "3.0-6.5", "6.5-8.0", "8.0-10.0", "10.0-13.0", "13.0-30.0", "6.5-7.5", "7.5-8.5", "8.5-9.5", "9.5-10.5", "10.5-11.5", "11.5-13.0", "13.0-18.0", "18.0-30.0"};
+  string ptbins[] = {"0.0-3.0", "3.0-5.0", "5.0-6.5", "0.0-6.5", "6.5-30.0", "10.0-30.0", "6.5-10.0", "3.0-6.5", "6.5-8.0", "8.0-10.0", "10.0-13.0", "13.0-30.0", "6.5-7.5", "7.5-8.5", "8.5-9.5", "9.5-10.5", "10.5-11.5", "11.5-13.0", "13.0-18.0", "18.0-30.0"};
   string ptbinscorser[] = {"0.0-6.5", "6.5-30.0", "10.0-30.0", "6.5-10.0", "3.0-6.5", "6.5-8.0", "8.0-10.0", "10.0-13.0", "13.0-30.0"};
-  string ptbinsfiner[] = {"6.5-7.5", "7.5-8.5", "8.5-9.5", "9.5-10.5", "10.5-11.5", "11.5-13.0", "13.0-18.0", "18.0-30.0"};
+  string ptbinsfiner[] = {"0.0-3.0", "3.0-5.0", "5.0-6.5", "6.5-7.5", "7.5-8.5", "8.5-9.5", "9.5-10.5", "10.5-11.5", "11.5-13.0", "13.0-18.0", "18.0-30.0"};
   vector<string> ptVectorFiner(ptbinsfiner, ptbinsfiner+sizeof(ptbinsfiner)/sizeof(string));
   vector<string> ptVectorCorser(ptbinscorser, ptbinscorser+sizeof(ptbinscorser)/sizeof(string));
-  string centbins[] = {"0-100", "0-5", "5-10", "10-15", "15-20", "20-25", "25-30", "30-35", "35-40", "40-45", "45-50", "50-55", "55-60", "60-65", "65-70", "70-100", "0-10", "10-20", "20-30", "30-40", "40-50", "50-100", "50-60", "60-70", "60-100", "70-100", "0-1","1-2","2-4","4-6","6-8","8-10","10-12","12-15","15-18","18-21","21-24","24-27","27-30","30-33","33-36","36-39","39-42","42-45","45-48","48-51","51-54","54-57","57-60","60-65","65-70","70-75","75-80","80-100","70-80","50-70"};
-  string centbinscorser[] = {"0-100", "0-5", "5-10", "10-15", "15-20", "20-25", "25-30", "30-35", "35-40", "40-45", "45-50", "50-55", "55-60", "60-65", "65-70", "70-100", "0-10", "10-20", "20-30", "30-40", "40-50", "50-100", "50-60", "60-70", "60-100", "70-100","70-80","80-100","50-70"};
+  string centbins[] = {"0-100", "0-5", "5-10", "10-15", "15-20", "20-25", "25-30", "30-35", "35-40", "40-45", "45-50", "50-55", "55-60", "60-65", "65-70", "70-100", "0-10", "10-20", "20-30", "30-40", "40-50", "50-100", "50-60", "60-70", "60-100", "70-100", "0-1","1-2","2-4","4-6","6-8","8-10","10-12","12-15","15-18","18-21","21-24","24-27","27-30","30-33","33-36","36-39","39-42","42-45","45-48","48-51","51-54","54-57","57-60","60-65","65-70","70-75","75-80","80-100","70-80","50-70","10-30","30-50"};
+  string centbinscorser[] = {"0-100", "0-5", "5-10", "10-15", "15-20", "20-25", "25-30", "30-35", "35-40", "40-45", "45-50", "50-55", "55-60", "60-65", "65-70", "70-100", "0-10", "10-20", "20-30", "30-40", "40-50", "50-100", "50-60", "60-70", "60-100", "70-100","70-80","80-100","50-70","10-30","30-50"};
   string centbinsfiner[] = {"0-1","1-2","2-4","4-6","6-8","8-10","10-12","12-15","15-18","18-21","21-24","24-27","27-30","30-33","33-36","36-39","39-42","42-45","45-48","48-51","51-54","54-57","57-60","60-65","65-70","70-75","75-80"};
   vector<string> centVectorFiner(centbinsfiner, centbinsfiner+sizeof(centbinsfiner)/sizeof(string));
   vector<string> centVectorCorser(centbinscorser, centbinscorser+sizeof(centbinscorser)/sizeof(string));
@@ -68,13 +68,14 @@ int main (int argc, char* argv[]) {
   const int nPt = sizeof(ptbins)/sizeof(string);
   const int nCent = sizeof(centbins)/sizeof(string);
   const int ndPhi = sizeof(dphibins)/sizeof(string);
-  cout << "nCent: " << nCent << endl;
 
   // prange, yrange: loop over these variables!
   for (int rapbin=0; rapbin < nRaps; rapbin++) {
     for (int ptbin=0; ptbin < nPt; ptbin++) {
       for (int centbin=0; centbin < nCent; centbin++) {
         for (int dphibin=0; dphibin < ndPhi; dphibin++) {
+
+      cout << rapbin << " " << ptbin << " " << centbin << " " << dphibin << endl;
 
       string prange, lrange, yrange, crange, phirange, errrange;
       prange = ptbins[ptbin];
@@ -89,24 +90,26 @@ int main (int argc, char* argv[]) {
       getOptRange(phirange,&psmin,&psmax);
 
       // skip finer cent binnings, pT binnings for finer rapidity binnigs
-      if ( (yrange.compare("-2.4--0.47") && yrange.compare("-0.47-1.46") && yrange.compare("-2.4-1.46") ) &&
+      if ( ( yrange.compare("-2.4--0.47") && yrange.compare("-0.47-1.46") && yrange.compare("-2.4-1.46") ) &&
             (find(centVectorFiner.begin(), centVectorFiner.end(), crange)!=centVectorFiner.end() || 
              find(ptVectorFiner.begin(), ptVectorFiner.end(), prange)!=ptVectorFiner.end())
          ) continue;
       // skip finer cent binnings if pT range is NOT [6.5, 30.0]
       if ( prange.compare("6.5-30.0") && (find(centVectorFiner.begin(), centVectorFiner.end(), crange)!=centVectorFiner.end()) ) continue;
       // skip finer cent binnings + finer pT binnings in the integrated rapidity bins
-      if ( !yrange.compare("-2.4--0.47") && !yrange.compare("-0.47-1.46") && !yrange.compare("-2.4-1.46") && 
-           find(centVectorFiner.begin(), centVectorFiner.end(), crange)!=centVectorFiner.end() &&
-           find(ptVectorFiner.begin(), ptVectorFiner.end(), prange)!=ptVectorFiner.end() 
+      if ( (!yrange.compare("-2.4--0.47") || !yrange.compare("-0.47-1.46") || !yrange.compare("-2.4-1.46")) && 
+           (find(centVectorFiner.begin(), centVectorFiner.end(), crange)!=centVectorFiner.end() &&
+           find(ptVectorFiner.begin(), ptVectorFiner.end(), prange)!=ptVectorFiner.end())
          ) continue;
 
       // *** Read Data files
       string dataset = argv[2];
-      string FileName = "../" +dataset+ "/" +dirPre+ "/Data2013_cent" +crange+ "_dPhi" +phirange+ ".root";
+      string FileName = dataset+ "/" +dirPre+ "/Data2013_cent" +crange+ "_dPhi" +phirange+ ".root";
+//      string FileName = "../" +dataset+ "/" +dirPre+ "/Data2013_cent" +crange+ "_dPhi" +phirange+ ".root";
       TFile fInData(FileName.c_str());
       cout << FileName.c_str() << endl;
       if (fInData.IsZombie()) { cout << "### CANNOT open data root file\n"; continue; }
+      else cout << "data files is opened." << endl;
       fInData.cd();
       RooDataSet *data = (RooDataSet*)fInData.Get("dataJpsi");
       data->SetName("data");
@@ -175,12 +178,12 @@ int main (int argc, char* argv[]) {
       if (!crange.compare("0-100")) { centest = false; }
       else {
         centest = true;
-        inputFNcb = dirPre + "/rap" + yrange + "_pT" + prange + "_cent0-100_dPhi0.000-1.571.txt";
+        inputFNcb = dirPre+ "/rap" + yrange + "_pT" + prange + "_cent0-100_dPhi0.000-1.571.txt";
       }
       if (!phirange.compare("0.000-1.571")) { dPhitest = false; }
       else {
         dPhitest = true;
-        inputFN = dirPre + "/rap" + yrange + "_pT" + prange + "_cent" + crange + "_dPhi0.000-1.571.txt";
+        inputFN = dirPre+ "/rap" + yrange + "_pT" + prange + "_cent" + crange + "_dPhi0.000-1.571.txt";
       }
 
       if (centest) {
@@ -270,14 +273,14 @@ int main (int argc, char* argv[]) {
       ws->pdf("errPdfBkg")->plotOn(errframe2,LineColor(kBlue),Normalization(binDataCtErrSB->sumEntries(),RooAbsReal::NumEvent));
 
       TCanvas c0("ctau_err","ctau_err",500,500);
-      c0.cd(); c0.SetLogy(0); errframe2->Draw();
-      titlestr = dirPre + "/rap" + yrange + "_pT" + prange + "_cent" + crange  + "_dPhi" + phirange + "_testErrPdfBkg_Lin.pdf";
+/*      c0.cd(); c0.SetLogy(0); errframe2->Draw();
+      titlestr = dirPre+ "/rap" + yrange + "_pT" + prange + "_cent" + crange  + "_dPhi" + phirange + "_testErrPdfBkg_Lin.pdf";
       c0.SaveAs(titlestr.c_str());
       c0.SetLogy(1); errframe2->Draw();
-      titlestr = dirPre + "/rap" + yrange + "_pT" + prange + "_cent" + crange + "_dPhi" + phirange + "_testErrPdfBkg_Log.pdf";
+      titlestr = dirPre+ "/rap" + yrange + "_pT" + prange + "_cent" + crange + "_dPhi" + phirange + "_testErrPdfBkg_Log.pdf";
       c0.SaveAs(titlestr.c_str());
       delete errframe2;
-
+*/
       // *** scaleF is defined to scale down ct err dist in 2.9-3.3 GeV/c2 signal region
       float bc = ws->var("coefExp")->getVal();
       float scaleF = (exp(2.9*bc)-exp(3.3*bc))/(exp(2.6*bc)-exp(2.9*bc)+exp(3.3*bc)-exp(3.5*bc));
@@ -292,14 +295,14 @@ int main (int argc, char* argv[]) {
       ws->pdf("errPdfSig")->plotOn(errframe2,LineColor(kBlue),Normalization(subtrData->sumEntries(),RooAbsReal::NumEvent));
       binDataCtErrSIG->plotOn(errframe2,DataError(RooAbsData::SumW2),LineColor(kRed),MarkerColor(kRed));  //Not subtracted D_sig
       
-      c0.Clear(); c0.SetLogy(0); errframe2->Draw();
-      titlestr = dirPre + "/rap" + yrange + "_pT" + prange + "_cent" + crange + "_dPhi" + phirange + "_testErrPdfSig_Lin.pdf";
+/*      c0.Clear(); c0.SetLogy(0); errframe2->Draw();
+      titlestr = dirPre+ "/rap" + yrange + "_pT" + prange + "_cent" + crange + "_dPhi" + phirange + "_testErrPdfSig_Lin.pdf";
       c0.SaveAs(titlestr.c_str());
       c0.Clear(); c0.SetLogy(1); errframe2->Draw();
-      titlestr = dirPre + "/rap" + yrange + "_pT" + prange + "_cent" + crange + "_dPhi" + phirange + "_testErrPdfSig_Log.pdf";
+      titlestr = dirPre+ "/rap" + yrange + "_pT" + prange + "_cent" + crange + "_dPhi" + phirange + "_testErrPdfSig_Log.pdf";
       c0.SaveAs(titlestr.c_str());
       delete errframe2;
-
+*/
       // ** Check the minimum and maximum of the ctau error in signal and background regions
       TH1* hSig = subtrData->createHistogram("hSig",*ws->var("Jpsi_CtErr"));
       TH1* hBkg = scaledBkg->createHistogram("hBkg",*ws->var("Jpsi_CtErr"));
@@ -394,14 +397,14 @@ int main (int argc, char* argv[]) {
       sprintf(comment,"Range: %.3f-%.3f mm",tmpMin,tmpMax);
       t->DrawLatex(0.5,0.72,comment);
 
-      titlestr = dirPre + "/rap" + yrange + "_pT" + prange + "_cent" + crange + "_dPhi" + phirange + "_testErrPdfSigDetail_Log.pdf";
+//      titlestr = dirPre+ "/rap" + yrange + "_pT" + prange + "_cent" + crange + "_dPhi" + phirange + "_testErrPdfSigDetail_Log.pdf";
       c0.SaveAs(titlestr.c_str());
 
       char cerrange[100];
       sprintf(cerrange,"%0.3f-%0.3f",tmpMin,tmpMax);
       output << yrange << " " << prange << " " << crange << " " << phirange << " " << cerrange << endl;
 
-      titlestr = dirPre + "/rap" + yrange + "_pT" + prange + "_cent" + crange + "_dPhi" + phirange + ".txt";
+      titlestr = dirPre+ "/rap" + yrange + "_pT" + prange + "_cent" + crange + "_dPhi" + phirange + ".txt";
       ofstream outputFile(titlestr.c_str());
       if (!outputFile.good()) {cout << "Fail to open result file." << endl; return 1;}
       outputFile
