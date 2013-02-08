@@ -168,7 +168,7 @@ int main(int argc, char* argv[]) {
   // pA has 100 centrality bins
   int cent50Arr[] = {0,10,20,30,40,50,100};
   int cent60Arr[] = {0,10,20,30,40,50,60,100};
-  int cent5070Arr[] = {0,10,20,30,40,50,70,100};
+  int cent305070Arr[] = {0,10,30,50,70,100};
   int cent70Arr[] = {0,10,20,30,40,50,60,70,100};
   int cent80Arr[] = {0,10,20,30,40,50,60,70,80,100};
   int cent805Arr[] = {0,5,10,15,20,25,30,35,40,45,50,55,60,65,70,80,100};
@@ -190,9 +190,9 @@ int main(int argc, char* argv[]) {
   if (centInput == 50) {
     int arrSize = sizeof(cent50Arr)/sizeof(int);
     for (int i=0; i<arrSize; i++) centLimits.push_back(cent50Arr[i]);
-  } else if (centInput == 5070) {
-    int arrSize = sizeof(cent5070Arr)/sizeof(int);
-    for (int i=0; i<arrSize; i++) centLimits.push_back(cent5070Arr[i]);
+  } else if (centInput == 305070) {
+    int arrSize = sizeof(cent305070Arr)/sizeof(int);
+    for (int i=0; i<arrSize; i++) centLimits.push_back(cent305070Arr[i]);
   } else if (centInput == 60) {
     int arrSize = sizeof(cent60Arr)/sizeof(int);
     for (int i=0; i<arrSize; i++) centLimits.push_back(cent60Arr[i]);
