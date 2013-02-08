@@ -13,7 +13,7 @@ raparr=(-2.4-1.46 -2.4--0.47 -0.47-1.46 -2.4--2.014 -2.014--1.628 -1.628--1.242 
 for dataset in ${datasetarr[@]}; do
   for prefix in ${prefixarr[@]}; do
     for rap in ${raparr[@]}; do
-      awk -v p=$(pwd) -v p2=CTauErr -v p3=$prefix -v p4=$dataset -v p5=$rap -v p6=$prefix\_$rap.tgz '{gsub("_pwd_",p); gsub("_input_py_",p2); gsub("_prefix_",p3); gsub("_input_file_",p4); gsub("_rap_",p5); gsub("_prefixtar_",p6);  print;}' mjob.sh > $prefix\_$rap.sh;
+      awk -v p=$(pwd) -v p2=CTauErr -v p3=$prefix -v p4=$dataset -v p5=$rap -v p6=$prefix\_$rap.tgz '{gsub("_pwd_",p); gsub("_input_py_",p2); gsub("_prefix_",p3); gsub("_input_file_",p4); gsub("_rap_",p5); gsub("_prefixtar_",p6);  print;}' runCtauErrJob.sh > $prefix\_$rap.sh;
       echo $prefix\_$rap.sh 
       chmod +x $prefix\_$rap.sh 
       bsub -R "pool>10000" -q 1nd -J $prefix\_$rap.sh < $prefix\_$rap.sh
