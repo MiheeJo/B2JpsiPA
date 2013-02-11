@@ -44,6 +44,9 @@ static bool randChoice = true; //Only valid trigType == 5, true: randx > 0.5, fa
 //4: numOfMatch > 1 with a J/psi mass closest dimuon per event
 //5: numOfMatch > 2 with a J/psi mass closest dimuon per event
 //6: various single muon cuts for both single muons
+//7: both single mu pT > 4
+//8: -2.4 < both single mu eta < 1.46
+//9: -1.47 < both single mu eta < 0.53
 static int runType = 0;
 
 //0 : DO NOT weight, 1: Apply weight
@@ -1085,10 +1088,6 @@ bool checkRunType(const struct Condition Jpsi, const TLorentzVector* m1P, const 
     if (fabs(Jpsi.zVtx) < 10.0) return true;
     else return false;
   }
-  else if (runType == 4) {
-    if (m1P->Pt() > 4.0 && m2P->Pt() > 4.0) return true;
-    else return false;
-  }
   else if (runType == 6) {
     bool Matches      = Jpsi.mupl_numOfMatch > 1 && Jpsi.mumi_numOfMatch > 1;
     bool InnerChiMeas = (Jpsi.mupl_norChi2_inner/Jpsi.mupl_nTrkWMea < 0.15) &&
@@ -1099,6 +1098,26 @@ bool checkRunType(const struct Condition Jpsi, const TLorentzVector* m1P, const 
                         (Jpsi.mumi_norChi2_global/(Jpsi.mumi_nMuValHits+Jpsi.mumi_nTrkHits) < 0.15);
 
     if (TrkHits && Matches && InnerChiMeas && MuHits && GlobalChi) return true;
+    else return false;
+  }
+  else if (runType == 7) {
+    if (m1P->Pt() > 4.0 && m2P->Pt() > 4.0) return true;
+    else return false;
+  }
+  else if (runType == 8) {
+    if (m1P->Eta() > -2.4 && m2P->Eta() > -2.4 && m1P->Eta() < 1.46 && m2P->Eta() < 1.46) return true;
+    else return false;
+  }
+  else if (runType == 9) {
+    if (m1P->Eta() > -1.47 && m2P->Eta() > -1.47 && m1P->Eta() < 0.53 && m2P->Eta() < 0.53) return true;
+    else return false;
+  }
+  else if (runType == 78) {
+    if ((m1P->Eta() > -2.4 && m2P->Eta() > -2.4 && m1P->Eta() < 1.46 && m2P->Eta() < 1.46) && (m1P->Pt() > 4.0 && m2P->Pt() > 4.0)) return true;
+    else return false;
+  }
+  else if (runType == 79) {
+    if ((m1P->Eta() > -1.47 && m2P->Eta() > -1.47 && m1P->Eta() < 0.53 && m2P->Eta() < 0.53) && (m1P->Pt() > 4.0 && m2P->Pt() > 4.0)) return true;
     else return false;
   }
 
