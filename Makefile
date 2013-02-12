@@ -29,6 +29,12 @@ RooExp2.o: $(INCLUDEDIR)/RooExp2.cpp
 Tree2Datasets:	$(INCLUDEDIR)tree2Datasets.cpp
 	$(CPP) $(CPPFLAGS) -o Tree2Datasets $(GLIBS) $ $<
 
+Tree2DatasetspPb:	$(INCLUDEDIR)tree2Datasets_pPb.cpp
+	$(CPP) $(CPPFLAGS) -o Tree2DatasetspPb $(GLIBS) $ $<
+
+Tree2DatasetsPbp:	$(INCLUDEDIR)tree2Datasets_Pbp.cpp
+	$(CPP) $(CPPFLAGS) -o Tree2DatasetsPbp $(GLIBS) $ $<
+
 Tree2DatasetsPsi2s:	$(INCLUDEDIR)tree2Datasets_psi2s.cpp
 	$(CPP) $(CPPFLAGS) -o Tree2DatasetsPsi2s $(GLIBS) $ $<
 
@@ -37,6 +43,12 @@ Tree2DatasetsMC:	$(INCLUDEDIR)tree2Datasets_mc.cpp
 
 Fit2DDataPbPb:	$(INCLUDEDIR)fit2DData_pbpb.cpp
 	$(CPP) $(CPPFLAGS) -o Fit2DDataPbPb $(OUTLIB)/*.o $(GLIBS) $ $<
+
+Fit2DDatapPb:	$(INCLUDEDIR)fit2DData_ppb.cpp
+	$(CPP) $(CPPFLAGS) -o Fit2DDatapPb $(OUTLIB)/*.o $(GLIBS) $ $<
+
+Fit2DDataPbp:	$(INCLUDEDIR)fit2DData_pbp.cpp
+	$(CPP) $(CPPFLAGS) -o Fit2DDataPbp $(OUTLIB)/*.o $(GLIBS) $ $<
 
 Fit2DDataTest:	$(INCLUDEDIR)fit2DData_test.cpp
 	$(CPP) $(CPPFLAGS) -o Fit2DDataTest $(OUTLIB)/*.o $(GLIBS) $ $<
