@@ -39,7 +39,7 @@ for f in range(2,len(sys.argv)):
     table = []
     
     try:
-      rap = re.search('rap-?\d{1,2}\.\d{1,2}--?\d{1,2}\.\d{1,2}',files).group()
+      rap = re.search('rap-?\d{1,3}\.\d{1,3}--?\d{1,3}\.\d{1,3}',files).group()
       cent = re.search('cent\d+-\d+',files).group()
       dphi = re.search('dPhi[-0-9.]+-[-0-9.]{5}',files).group()
       pt = re.search('pT\d+.\d-\d+.\d',files).group()
