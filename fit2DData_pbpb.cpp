@@ -80,8 +80,8 @@ int main (int argc, char* argv[]) {
   // Reduce "dataMC" with given ranges/cuts
   char reduceDS[300], reduceDS2[300];
   if (!inOpt.rpmethod.compare("etHFp") || !inOpt.rpmethod.compare("etHFm")) {
-    sprintf(reduceDS2,"Jpsi_Pt>%.2f && Jpsi_Pt<%.2f && Jpsi_Y>%.2f && Jpsi_Y<%.2f && Jpsi_Ct > %.2f && Jpsi_Ct < %.2f",pmin,pmax,ymin,ymax,-lmin,lmax);
-    sprintf(reduceDS,"Jpsi_Pt>%.2f && Jpsi_Pt<%.2f && Jpsi_Y>%.2f && Jpsi_Y<%.2f && Jpsi_Ct > %.2f && Jpsi_Ct <%.2f && Jpsi_CtErr > %.3f && Jpsi_CtErr <%.3f",pmin,pmax,ymin,ymax,-lmin,lmax,errmin,errmax);
+    sprintf(reduceDS2,"Jpsi_Pt>%.2f && Jpsi_Pt<%.2f && Jpsi_Y>%.3f && Jpsi_Y<%.3f && Jpsi_Ct > %.2f && Jpsi_Ct < %.2f",pmin,pmax,ymin,ymax,-lmin,lmax);
+    sprintf(reduceDS,"Jpsi_Pt>%.2f && Jpsi_Pt<%.2f && Jpsi_Y>%.3f && Jpsi_Y<%.3f && Jpsi_Ct > %.2f && Jpsi_Ct <%.2f && Jpsi_CtErr > %.3f && Jpsi_CtErr <%.3f",pmin,pmax,ymin,ymax,-lmin,lmax,errmin,errmax);
   } else {
     sprintf(reduceDS2,"Jpsi_Pt>%.2f && Jpsi_Pt<%.2f && abs(Jpsi_Y)>%.2f && abs(Jpsi_Y)<%.2f && Jpsi_Ct > %.2f && Jpsi_Ct < %.2f",pmin,pmax,ymin,ymax,-lmin,lmax);
     sprintf(reduceDS,"Jpsi_Pt>%.2f && Jpsi_Pt<%.2f && abs(Jpsi_Y)>%.2f && abs(Jpsi_Y)<%.2f && Jpsi_Ct > %.2f && Jpsi_Ct <%.2f && Jpsi_CtErr > %.3f && Jpsi_CtErr <%.3f",pmin,pmax,ymin,ymax,-lmin,lmax,errmin,errmax);
@@ -852,9 +852,9 @@ int main (int argc, char* argv[]) {
   //    ws->var("fpm")->setConstant(kTRUE); //mh
 
       if (inOpt.prefitSignalCTau && inOpt.isPEE == 1) {
-        if (ws->var("fracRes")) ws->var("fracRes")->setConstant(kTRUE);
+//        if (ws->var("fracRes")) ws->var("fracRes")->setConstant(kTRUE);   //modified for pPb
         ws->var("meanResSigW")->setConstant(kTRUE);
-        ws->var("sigmaResSigN")->setConstant(kTRUE);//modified
+//        ws->var("sigmaResSigN")->setConstant(kTRUE);  //modified for pPb
         if (ws->var("sigmaResSigW")) ws->var("sigmaResSigW")->setConstant(kTRUE);//modified
       } else if (inOpt.prefitSignalCTau && inOpt.isPEE == 0) {
         ws->var("sigmaResSigW")->setConstant(kTRUE);
@@ -1341,7 +1341,7 @@ void formTitle(InputOpt &opt, float cmin, float cmax) {
     // Use for pPb data set
     sprintf(opt.cmspre,"CMS Preliminary");
     sprintf(opt.beamEn,"pPb  #sqrt{s_{NN}} = 5 TeV");
-    sprintf(opt.lumi,"L_{int} = 17.35 nb^{-1}");
+    sprintf(opt.lumi,"L_{int} = 18.4 nb^{-1}");
     sprintf(opt.centString,"Cent. %.0f-%.0f%%",cmin,cmax);
 
   } // is pbpb? is pp?
@@ -1385,18 +1385,17 @@ void formRapidity(InputOpt &opt, float ymin, float ymax) {
 }
 
 void formPt(InputOpt &opt, float pmin, float pmax) {
-  bool pminD = false, pmaxD = false;
-  int pmindec = floor(pmin), pmaxdec = floor(pmax);
-  if (pmin-pmindec == 0) { pminD = true; } else { pminD = false; }
-  if (pmax-pmaxdec == 0) { pmaxD = true; } else { pmaxD = false; }
+  double pminD, pmaxD, pminF, pmaxF;
+  pminF = modf(pmin,&pminD);
+  pmaxF = modf(pmax,&pmaxD);
 
   if (pmin == 0) { 
-    if (pmaxD) sprintf(opt.ptString,"p_{T} < %.0f GeV/c",pmax);
-    else if (pmaxD) sprintf(opt.ptString,"p_{T} < %.1f GeV/c",pmax);
+    if (pmaxF == 0) sprintf(opt.ptString,"p_{T} < %.0f GeV/c",pmax);
+    else  sprintf(opt.ptString,"p_{T} < %.1f GeV/c",pmax);
   } else {
-    if (pminD && pmaxD) sprintf(opt.ptString,"%.0f < p_{T} < %.0f GeV/c",pmin,pmax);
-    else if (pminD && !pmaxD) sprintf(opt.ptString,"%.0f < p_{T} < %.1f GeV/c",pmin,pmax);
-    else if (!pminD && pmaxD) sprintf(opt.ptString,"%.1f < p_{T} < %.0f GeV/c",pmin,pmax);
+    if (pminF == 0 && pmaxF == 0) sprintf(opt.ptString,"%.0f < p_{T} < %.0f GeV/c",pmin,pmax);
+    else if (pminF == 0 && !pmaxF == 0) sprintf(opt.ptString,"%.0f < p_{T} < %.1f GeV/c",pmin,pmax);
+    else if (!pminF == 0 && pmaxF == 0) sprintf(opt.ptString,"%.1f < p_{T} < %.0f GeV/c",pmin,pmax);
     else sprintf(opt.ptString,"%.1f < p_{T} < %.1f GeV/c",pmin,pmax);
   }
 }
@@ -1486,7 +1485,7 @@ RooBinning setCtBinning(float lmin,float lmax) {
     rb2.addBoundary(-0.6);
     rb2.addBoundary(-0.5);
     rb2.addUniform(12,-0.5,-0.2);
-    rb2.addUniform(20,-0.2,0.2);
+    rb2.addUniform(16,-0.2,0.2);
     rb2.addUniform(12,0.2,0.5);
     rb2.addUniform(14,0.5,1.2);
     rb2.addUniform(14,1.2,lmax);

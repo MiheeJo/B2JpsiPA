@@ -130,7 +130,7 @@ void defineMassSig(RooWorkspace *ws, InputOpt &opt) {
   }
 
   // Crystall Ball
-  ws->factory("CBShape::signalCB(Jpsi_Mass,meanSig1,sigmaSig1,alpha[1.,0.,3.],enne[5.,1.,30.])");
+  ws->factory("CBShape::signalCB(Jpsi_Mass,meanSig1,sigmaSig1,alpha[2.,0.,10.],enne[5.,1.,30.])");
   ws->factory("CBShape::signalCB2(Jpsi_Mass,meanSig1,sigmaSig2[0.03,0.01,0.06],alpha,enne)");
   ws->factory("CBShape::signalCBWN(Jpsi_Mass,meanSig1,sigmaSig1,alpha,enneW[5.,1.,50.])");
   ws->factory("CBShape::signalCB2WN(Jpsi_Mass,meanSig1,sigmaSig2,alpha,enneW)");
