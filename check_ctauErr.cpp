@@ -90,14 +90,18 @@ int main (int argc, char* argv[]) {
       getOptRange(phirange,&psmin,&psmax);
 
       // skip finer cent binnings, pT binnings for finer rapidity binnigs
-      if ( ( yrange.compare("-2.4--0.47") && yrange.compare("-0.47-1.46") && yrange.compare("-2.4-1.46") ) &&
+      if ( ( yrange.compare("-2.4--0.47") && yrange.compare("-0.47-1.46") && yrange.compare("-2.4-1.46") &&
+             yrange.compare("0.47-2.4") && yrange.compare("-1.46-0.47") && yrange.compare("-1.46-2.4") 
+           ) &&
             (find(centVectorFiner.begin(), centVectorFiner.end(), crange)!=centVectorFiner.end() || 
              find(ptVectorFiner.begin(), ptVectorFiner.end(), prange)!=ptVectorFiner.end())
          ) continue;
       // skip finer cent binnings if pT range is NOT [6.5, 30.0]
       if ( prange.compare("6.5-30.0") && (find(centVectorFiner.begin(), centVectorFiner.end(), crange)!=centVectorFiner.end()) ) continue;
       // skip finer cent binnings + finer pT binnings in the integrated rapidity bins
-      if ( (!yrange.compare("-2.4--0.47") || !yrange.compare("-0.47-1.46") || !yrange.compare("-2.4-1.46")) && 
+      if ( ( !yrange.compare("-2.4--0.47") || !yrange.compare("-0.47-1.46") || !yrange.compare("-2.4-1.46") ||
+             !yrange.compare("0.47-2.4") || !yrange.compare("-1.46-0.47") || !yrange.compare("-1.46-2.4") 
+           ) && 
            (find(centVectorFiner.begin(), centVectorFiner.end(), crange)!=centVectorFiner.end() &&
            find(ptVectorFiner.begin(), ptVectorFiner.end(), prange)!=ptVectorFiner.end())
          ) continue;
