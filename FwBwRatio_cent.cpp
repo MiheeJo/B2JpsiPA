@@ -59,7 +59,7 @@ int FwBwRatio_cent() {
   string str_sig[] = {"Inclusive J/#psi", "Prompt J/#psi", "Non-prompt J/#psi"};
   string str_sig_filename[] = {"Inclusive", "Prompt", "Non-prompt"};
   string str_rap[] = {"-2.4--0.47","-0.47-1.46"};
-  string str_pt[] = {"0-3","3-5","5-6.5","6.5-8","8-10","10-13","13-30"};
+  string str_pt[] = {"3-5","5-6.5","6.5-8","8-10","10-13","13-30"};
   string str_cent[] = {"50-100", "50-30", "30-10","0-10"};
 //  "70-100", "50-70", "40-50", "30-40", "20-30", "10-20", "0-10" 
 
@@ -184,7 +184,7 @@ int FwBwRatio_cent() {
     gline->DrawLine(0,1,nCent,1);
 
     //Because [0,3], [3,5] GeV/c aren't included in the acceptance region
-    for (int pt=2; pt<nPt; pt++) {
+    for (int pt=1; pt<nPt; pt++) {
       gr_forwardRcp[sig][pt] = new TGraphErrors(nCent,xaxis[pt],forwardRcp[sig][pt],0,forwardRcpErr[sig][pt]);
       
       SetGraphStyle(gr_forwardRcp[sig][pt],sig,pt);
@@ -239,7 +239,7 @@ int FwBwRatio_cent() {
     gline->DrawLine(0,1,nCent,1);
     
     //Because [0,3], [3,5] GeV/c aren't included in the acceptance region
-    for (int pt=2; pt<nPt; pt++) {
+    for (int pt=1; pt<nPt; pt++) {
       gr_finalRatio[sig][pt]= new TGraphErrors(nCent,xaxis[pt],finalRatio[sig][pt],0,finalRatioErr[sig][pt]);
       
       SetGraphStyle(gr_finalRatio[sig][pt],sig,pt);
