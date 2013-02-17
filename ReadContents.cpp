@@ -1,4 +1,5 @@
 #include <iostream>
+#include <iomanip>
 #include <fstream>
 #include <string>
 #include <sstream>
@@ -11,12 +12,23 @@ using namespace std;
 
 // Define which y, pT, cent bins are going to be used
 // The order of elements will be kept in the final results!
+
+// pPb
 //static string str_rap[] = {"-2.4--0.47","-0.47-1.46"};
-static string str_rap[] = {"-0.47-1.46"};
-static string str_pt[] = {"0.0-3.0","3.0-5.0","5.0-6.5","6.5-8.0","8.0-10.0","10.0-13.0","13.0-30.0"};
+//static string str_rap[] = {"-0.47-1.46"};
 //static string str_rap[] = {"-2.4--1.757","-1.757--1.113","-1.113--0.47","-0.47-0.173","0.173-0.817","0.817-1.46"};
+// Pbp
+//static string str_rap[] = {"0.47-2.4","-1.46-0.47"};
+static string str_rap[] = {"0.47-2.4"};
+//static string str_rap[] = {"-1.46--0.817","-0.817--0.173","-0.173-0.47","0.47-1.113","1.113-1.757","1.757-2.4"};
+
+//static string str_pt[] = {"0.0-3.0","3.0-5.0","5.0-6.5","6.5-8.0","8.0-10.0","10.0-13.0","13.0-30.0"};
+static string str_pt[] = {"0.0-6.5","6.5-10.0","10.0-30.0"};
 //static string str_pt[] = {"6.5-30.0"};
-static string str_cent[] = {"50-100", "30-50", "10-30", "0-10"};
+
+//static string str_cent[] = {"50-100", "30-50", "10-30", "0-10"};
+static string str_cent[] = {"0-100"};
+
 static std::vector<string> rapidity(str_rap,str_rap+sizeof(str_rap)/sizeof(string));
 static std::vector<string> pt(str_pt,str_pt+sizeof(str_pt)/sizeof(string));
 static std::vector<string> centrality(str_cent,str_cent+sizeof(str_cent)/sizeof(string));
@@ -27,7 +39,7 @@ static const int nCent = sizeof(str_cent)/sizeof(string);
 struct eachRow {
   string rap, pt, cent;
   double nsig, nsigerr, npr, nprerr, nnp, nnperr;
-  eachRow():rap("-2.4-1.46"),pt("6.5-30"),cent("0-100"),nsig(1),nsigerr(0.1),npr(1),nprerr(0.1),nnp(1),nnperr(0.1){ };
+  eachRow():rap(str_rap[0]),pt(str_pt[0]),cent(str_cent[0]),nsig(1),nsigerr(0.1),npr(1),nprerr(0.1),nnp(1),nnperr(0.1){ };
 };
 
 bool ComparatorWithArray(eachRow data1, eachRow data2) {
@@ -100,10 +112,6 @@ bool FindMissingElement(std::list<eachRow> data) {
     for (it_eachRow=data.begin(); it_eachRow!=data.end(); it_eachRow++) {
       existData.push_back((*it_eachRow).rap +"_"+ (*it_eachRow).pt +"_"+ (*it_eachRow).cent);
     } // Fill up a list with data vector
-
-    // Remove duplicate entries
-//    reference.unique();
-//    existData.unique();
 
     // Find same entries both on reference and data and remove those entries
     for (it = existData.begin(); it != existData.end(); it++) {
@@ -216,7 +224,9 @@ int main(int argc, char *argv[]) {
       << (*it_eachRow).nprerr << "\t"
       << (*it_eachRow).nnp << "\t"
       << (*it_eachRow).nnperr << std::endl;
-    std::cout << (*it_eachRow).nsig  << "\t"
+    std::cout << std::setiosflags(ios::left) 
+      << std::setw(14) << (*it_eachRow).rap << "\t" << std::setw(10) << (*it_eachRow).pt << "\t" << std::setw(7) << (*it_eachRow).cent << "\t"
+      << (*it_eachRow).nsig  << "\t"
       << (*it_eachRow).nsigerr << "\t"
       << (*it_eachRow).npr << "\t"
       << (*it_eachRow).nprerr << "\t"
