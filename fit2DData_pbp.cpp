@@ -1341,7 +1341,7 @@ void formTitle(InputOpt &opt, float cmin, float cmax) {
     // Use for pPb data set
     sprintf(opt.cmspre,"CMS Preliminary");
     sprintf(opt.beamEn,"Pbp  #sqrt{s_{NN}} = 5 TeV");
-    sprintf(opt.lumi,"L_{int} = 4.65 nb^{-1}");
+    sprintf(opt.lumi,"L_{int} = 18.4 nb^{-1}");
     sprintf(opt.centString,"Cent. %.0f-%.0f%%",cmin,cmax);
 
   } // is pbpb? is pp?
