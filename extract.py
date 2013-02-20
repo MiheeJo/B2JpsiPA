@@ -16,6 +16,8 @@ foutput = open("fit_parameters","w")
 ftable = open("fit_table","w")
 # Re-format fit_table file for root macro
 fcpp = open("fit_cppnumbers","w")
+# Print bins with N_Sig error > N_Sig*0.1
+ferror = open("fit_errorbins","w")
 
 # Number of dphibins for each rap, cent, pt bins
 dphibins = 1;
@@ -73,6 +75,7 @@ for f in range(2,len(sys.argv)):
     
     header = "rap\tpT\tcent\tdPhi\t"
     headerShort = "rap\tpT\tcent\tdPhi\t"
+    headerError = "rap\tpT\tcent\tdPhi\t"
 
     for line in finput: # Read one .txt file (result file)
       tmp = line.split(" ")
@@ -114,18 +117,17 @@ for f in range(2,len(sys.argv)):
       datapar.append(data)
       datatab.append(table)
 
-
   # sort ALL directory's results and put them into a file
   if f is 2:
     foutput.write(header+"\n")
   dataparfin = sorted(datapar, key=itemgetter(0,1,2,3))
-  for i in dataparfin:
+  for i in datapar:
     line = ""
     for j in i:
       line = line+str(j)+"\t"
     foutput.write(line+"\n")
 
-  # sort results of only useful bins and put them into file
+  # sort only useful results and put them into file
   if f is 2:
     ftable.write(headerShort+"\n")
   datatabfin = sorted(datatab, key=itemgetter(0,1,2,3))
@@ -135,7 +137,10 @@ for f in range(2,len(sys.argv)):
       line = line+str(j)+"\t"
     ftable.write(line+"\n")
 
-  # write a file with nSig, nPrompt, nNon-prompt
+  # put header for a file with inclusive error bins
+  ferror.write("rap\tpT\tcent\tdPhi\tNSig\tNSigErr\n");
+
+  # write a file to create a root file with nSig, nPrompt, nNon-prompt 
   sigAry = [];
   bkgAry = [];
   prAry = [];
@@ -170,6 +175,12 @@ for f in range(2,len(sys.argv)):
     bAry.append(i[12]);
     bEAry.append(i[13]);
 
+    # Check inclusive yields and if it is too large, write those bins into a error file
+    if i[4]*0.1 < i[5] :
+      ferror.write(str(i[0])+"\t"+str(i[1])+"\t"+str(i[2])+"\t"+str(i[3])+"\t");
+      ferror.write(str(i[4])+"\t"+str(i[5])+"\n");
+
+    
     if dphibins > 1:  # Write fit_cppnumbers file if there are dphibins more than 1
       if len(sigAry) is dphibins:
         if dphibins is 3:
@@ -227,7 +238,8 @@ for f in range(2,len(sys.argv)):
 
     fcpp.write("\n");
     # end of fit_cppnumbers writing
-'''    
+
+'''
   outputmass = prefix + "_massfit.pdf"
   outputctaulog = prefix + "_timefit_Log.pdf"
   outputctauside = prefix + "_timeside_Log.pdf"
@@ -243,8 +255,9 @@ for f in range(2,len(sys.argv)):
     subprocess.call("pdfnup --nup 5x3 --papersize '{18cm,20cm}' --outfile %s %s" %(outputmass, masspdf), shell=True)
     subprocess.call("pdfnup --nup 5x3 --papersize '{18cm,20cm}' --outfile %s %s" %(outputctaulog, ctaupdfLog), shell=True)
     subprocess.call("pdfnup --nup 5x3 --papersize '{18cm,20cm}' --outfile %s %s" %(outputctauside, ctausideLog), shell=True)
- ''' 
+'''
 
 foutput.close();
 ftable.close();
 fcpp.close();
+ferror.close();
