@@ -73,7 +73,7 @@ elif [ "$ispbpb" == "2" ]; then
   if [ "$ctauErrF" == "singleMuEtaAllMu4GeV" -o "$ctauErrF" == "singleMuEtaBarrel" -o "$ctauErrF" == "mu4GeV" ]; then
     ctauErrFile=/afs/cern.ch/work/m/miheejo/private/cms442_Jpsi/src/pA/ctauErrCheck/Pbp18.38nb/ctauErrRange_default_bit1_$ctauErrF.txt;
   else
-    ctauErrFile=/afs/cern.ch/work/m/miheejo/private/cms442_Jpsi/src/pA/ctauErrCheck/Pbp18.38nb/ctauErrRange_default_bit1_singleMuEtaAll.txt;
+    ctauErrFile=/afs/cern.ch/work/m/miheejo/private/cms442_Jpsi/src/pA/ctauErrCheck/Pbp18.38nb/ctauErrRange_default_bit1.txt;
   fi
 else
   ctauErrF=$(echo $prefix | awk 'BEGIN{FS="_"}; {print $2}')
@@ -119,7 +119,7 @@ function program {
       printf "cd %s\n" $(pwd) >> $scripts/$work.csh
       printf "eval \`scramv1 runtime -csh\`\n" >> $scripts/$work.csh
       printf "cd -\n" >> $scripts/$work.csh
-      printf "cp %s/%s %s/fit2DData_pbpb.cpp .\n" $(pwd) Scripts/$work.csh $(pwd) >> $scripts/$work.csh
+      printf "cp %s/%s fit2DData.h %s/fit2DData_pbp.cpp .\n" $(pwd) Scripts/$work.csh $(pwd) >> $scripts/$work.csh
 
       ctauerrMB=$(awk -v rap=$rap -v pt=$pt  '{if ($1==rap && $2==pt && $3=="0-100" && $4=="0.000-1.571") {print $5}  }' < $ctauErrFile)
       ctauerrPhi=$(awk -v rap=$rap -v pt=$pt -v cent=$cent -v dphi=0.000-1.571 '{if ($1==rap && $2==pt && $3==cent && $4==dphi) {print $5}  }' < $ctauErrFile)
@@ -158,7 +158,7 @@ function program {
         fi
       fi
 
-      printf "tar zcvf %s.tgz %s* fit2DData_pbpb.cpp\n" $work $work >> $scripts/$work.csh
+      printf "tar zcvf %s.tgz %s* fit2DData.h fit2DData_pbp.cpp\n" $work $work >> $scripts/$work.csh
       printf "cp %s.tgz %s\n" $work $storage >> $scripts/$work.csh
       bsub -R "pool>10000" -u mihee.jo@cer.c -q 1nd -J $work < $scripts/$work.csh
     done
@@ -169,30 +169,18 @@ function program {
 ########## Running script with pre-defined binnings
 ################################################################ 
 for rap in ${rapbins[@]}; do
-  if [ "$rap" == "-2.4-1.47" -o "$rap" == "-2.4--0.47" -o "$rap" == "-0.47-1.47" -o "$rap" == "-1.47-0.47" -o "$rap" == "0.47-2.4" -o "$rap" == "-1.47-0.47" ]; then
-    # pt dependence
-    for pt in ${pt0024[@]}; do
-      program $rap $pt 0-100
-      program $rap $pt ${centcorser2[@]}
-    done
-    program $rap 6.5-30.0 0-100
-    # fine cent dependence
+  # pt dependence
+  for pt in ${pt0024[@]}; do
+    program $rap $pt 0-100
+    program $rap $pt ${centcorser2[@]}
+  done
+  program $rap 6.5-30.0 0-100
+  # fine cent dependence
 #    program $rap 6.5-30.0 ${cent0024[@]}
-    program $rap 6.5-30.0 ${centcorser[@]}
-    # corser pt & corser cent dependence
-    for pt in ${ptcorser[@]}; do
-      program $rap $pt ${centcorser[@]}
-      program $rap $pt 0-100
-    done
-
-  else
-    program $rap 6.5-30.0 0-100
-    program $rap 6.5-30.0 ${centcorser[@]}
-    for pt in ${ptcorser2[@]}; do
-#      program $rap $pt ${centcorser[@]}
-      program $rap $pt 0-100
-    done
-
-
-  fi
+  program $rap 6.5-30.0 ${centcorser[@]}
+  # corser pt & corser cent dependence
+  for pt in ${ptcorser[@]}; do
+    program $rap $pt ${centcorser[@]}
+    program $rap $pt 0-100
+  done
 done
