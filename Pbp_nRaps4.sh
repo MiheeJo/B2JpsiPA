@@ -70,8 +70,8 @@ if [ "$ispbpb" == "1" ]; then
   fi
 elif [ "$ispbpb" == "2" ]; then
   ctauErrF=$(echo $prefix | awk 'BEGIN{FS="_"}; {print $2}')
-  if [ "$ctauErrF" == "singleMuEtaAllMu4GeV" -o "$ctauErrF" == "singleMuEtaBarrel" -o "$ctauErrF" == "mu4GeV" ]; then
-    ctauErrFile=/afs/cern.ch/work/m/miheejo/private/cms442_Jpsi/src/pA/ctauErrCheck/Pbp18.38nb/ctauErrRange_default_bit1_$ctauErrF.txt;
+  if [ "$ctauErrF" == "singleMuEtaAll" -o "$ctauErrF" == "singleMuEtaAllMu4GeV" -o "$ctauErrF" == "singleMuEtaBarrel" -o "$ctauErrF" == "mu4GeV" ]; then
+    ctauErrFile=/afs/cern.ch/work/m/miheejo/private/cms442_Jpsi/src/pA/ctauErrCheck/Pbp18.38nb/ctauErrRange_$ctauErrF\_bit1.txt;
   else
     ctauErrFile=/afs/cern.ch/work/m/miheejo/private/cms442_Jpsi/src/pA/ctauErrCheck/Pbp18.38nb/ctauErrRange_default_bit1.txt;
   fi
@@ -119,7 +119,7 @@ function program {
       printf "cd %s\n" $(pwd) >> $scripts/$work.csh
       printf "eval \`scramv1 runtime -csh\`\n" >> $scripts/$work.csh
       printf "cd -\n" >> $scripts/$work.csh
-      printf "cp %s/%s fit2DData.h %s/fit2DData_pbp.cpp .\n" $(pwd) Scripts/$work.csh $(pwd) >> $scripts/$work.csh
+      printf "cp %s/%s %s/fit2Data.h %s/fit2DData_pbp.cpp .\n" $(pwd) Scripts/$work.csh $(pwd) $(pwd) >> $scripts/$work.csh
 
       ctauerrMB=$(awk -v rap=$rap -v pt=$pt  '{if ($1==rap && $2==pt && $3=="0-100" && $4=="0.000-1.571") {print $5}  }' < $ctauErrFile)
       ctauerrPhi=$(awk -v rap=$rap -v pt=$pt -v cent=$cent -v dphi=0.000-1.571 '{if ($1==rap && $2==pt && $3==cent && $4==dphi) {print $5}  }' < $ctauErrFile)
