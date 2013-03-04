@@ -13,23 +13,31 @@ using namespace std;
 // Define which y, pT, cent bins are going to be used
 // The order of elements will be kept in the final results!
 
-// pPb
-//static string str_rap[] = {"-2.4--0.47","-0.47-1.46"};
-//static string str_rap[] = {"-2.4--0.47"};
-//static string str_rap[] = {"-0.47-1.46"};
-//static string str_rap[] = {"-2.4--1.757","-1.757--1.113","-1.113--0.47","-0.47-0.173","0.173-0.817","0.817-1.46"};
 // Pbp
+//static string str_rap[] = {"-2.4--0.47","-0.47-1.47"};
+static string str_rap[] = {"-2.4--1.47","-1.47--0.47","-0.47-0.53","0.53-1.47"};
+//static string str_rap[] = {"-2.4--1.47","-1.47--0.47","-0.47-0.53","0.53-1.47","1.47-2.4"}; 
+//static string str_rap[] = {"-1.47--0.47","-0.47-0.53"};
+// pPb
 //static string str_rap[] = {"0.47-2.4","-1.46-0.47"};
-//static string str_rap[] = {"0.47-2.4"};
-static string str_rap[] = {"-1.46-0.47"};
-//static string str_rap[] = {"1.757-2.4","1.113-1.757","0.47-1.113","-0.173-0.47","-0.817--0.173","-1.46--0.817"};
+//static string str_rap[] = {"-1.47-0.53","-0.53-0.47","0.47-1.47","1.47-2.4"};
+//static string str_rap[] = {"-2.4--1.47","-1.47--0.53","-0.53-0.47","0.47-1.47","1.47-2.4"};
+//static string str_rap[] = {"-0.53-0.47","0.47-1.47"};
 
-//static string str_pt[] = {"0.0-3.0","3.0-5.0","5.0-6.5","6.5-8.0","8.0-10.0","10.0-13.0","13.0-30.0"};
+//static string str_pt[] = {"0.0-3.0","3.0-6.5","6.5-8.0","8.0-10.0","10.0-13.0","13.0-30.0"};
 static string str_pt[] = {"0.0-6.5","6.5-10.0","10.0-30.0"};
 //static string str_pt[] = {"6.5-30.0"};
 
-//static string str_cent[] = {"50-100", "30-50", "10-30", "0-10"};
-static string str_cent[] = {"0-100"};
+static string str_cent[] = {"50-100", "30-50", "10-30", "0-10"};
+
+//////// Not valid bins among the combinations of above bins [rap_pt]
+static string str_nv[] = {
+  "-0.47-0.53_0.0-3.0", "-0.47-0.53_3.0-6.5", "-0.47-0.53_0.0-6.5",
+  "-0.53-0.47_0.0-3.0", "-0.53-0.47_3.0-6.5", "-0.53-0.47_0.0-6.5",
+  "-1.47-0.47_0.0-3.0", 
+  "0.47-1.47_0.0-3.0" 
+};
+static std::vector<string> notValid(str_nv,str_nv+sizeof(str_nv)/sizeof(string));
 
 static std::vector<string> rapidity(str_rap,str_rap+sizeof(str_rap)/sizeof(string));
 static std::vector<string> pt(str_pt,str_pt+sizeof(str_pt)/sizeof(string));
@@ -57,7 +65,6 @@ bool ComparatorWithArray(eachRow data1, eachRow data2) {
 
   if ( (locRap1 == rapidity.end()) || (locPt1 == pt.end()) || (locCent1 == centrality.end()) ||
        (locRap2 == rapidity.end()) || (locPt2 == pt.end()) || (locCent2 == centrality.end()) ) {
-    cerr << "ComparatorWithArray:: one of element isn't found in rapidity/pt/centrality array!" << std::endl;
     std::cout << "ComparatorWithArray:: one of element isn't found in rapidity/pt/centrality array!" << std::endl;
     return false;
   }
@@ -84,6 +91,16 @@ bool ComparatorWithArray(eachRow data1, eachRow data2) {
   return result;
 };
 
+bool CheckNotValidBins(eachRow data1) {
+  // Check this item if is one of the element in the array of not-valid bins
+  string test = data1.rap +"_"+ data1.pt;
+  std::vector<string>::iterator loc = find(notValid.begin(),notValid.end(),test);
+
+  if (loc != notValid.end()) return true;
+  else return false;
+}
+
+
 bool CheckSameEntries(eachRow data1, eachRow data2) {
   // Compare 2 items in the list
   bool result;
@@ -97,8 +114,6 @@ bool CheckSameEntries(eachRow data1, eachRow data2) {
 
 bool FindMissingElement(std::list<eachRow> data) {
   if (nRap*nPt*nCent != data.size()) {
-    std::cout << "Data size: " << data.size() << "\tReference size: " << nRap*nPt*nCent << std::endl;
-    
     std::list<string> existData, reference;  // rap, pt, cent
     std::list<string>::iterator it;
     std::list<eachRow>::iterator it_eachRow;
@@ -106,6 +121,12 @@ bool FindMissingElement(std::list<eachRow> data) {
     for (int i=0; i<nRap; i++) {
       for (int j=0; j<nPt; j++) {
         for (int k=0; k<nCent; k++) {
+          // If some entries are not-valid bins, ignore them
+          eachRow test;
+          test.rap = rapidity[i];
+          test.pt = pt[j];
+          if (CheckNotValidBins(test)) continue;
+          
           reference.push_back(rapidity[i] + "_" + pt[j] + "_" + centrality[k]);
         }
       }
@@ -119,13 +140,17 @@ bool FindMissingElement(std::list<eachRow> data) {
     for (it = existData.begin(); it != existData.end(); it++) {
       reference.remove(*it);
     }
-
+    
     // Prints out not-matched entries
-    for (it = reference.begin(); it != reference.end(); it++) {
-      std::cout << "FindMissingElement: " << (*it) << std::endl;
-    }
-    return true;
-  } else false;
+    if (reference.size() != 0) {
+      std::cout << "Data size: " << data.size() << "\tLeft over reference size: " << reference.size() << std::endl;
+      for (it = reference.begin(); it != reference.end(); it++) {
+        std::cout << "FindMissingElement: " << (*it) << std::endl;
+      }
+      return true;  // data has less/more entries than reference
+    } else false; // reference and data have same number of entries
+
+  } else false; // data have all bins in the defined array!
 }
 
 int main(int argc, char *argv[]) {
@@ -200,11 +225,20 @@ int main(int argc, char *argv[]) {
   // Remove duplicate entries (It happens when a bin doesn't have a correct fit result)
   dataValueUseful.unique(CheckSameEntries);
 
-  // Sort the final value array with given order (needs to be corrected!!!)
+  // Check if some bins are outside of acceptance region
+  for (it_eachRow=dataValueUseful.begin(); it_eachRow!=dataValueUseful.end(); it_eachRow++) {
+    if (CheckNotValidBins(*it_eachRow)) {
+      it_eachRow = dataValueUseful.erase(it_eachRow);
+      it_eachRow--;   // Because this pointer will be increased by for loop
+    }
+  }
+
+  // Sort the final value array with given order
   dataValueUseful.sort(ComparatorWithArray);
 
   // If there are missing entries in dataValueUseful, find which bin is missing
-  if (FindMissingElement(dataValueUseful)) return -3;
+//  if (FindMissingElement(dataValueUseful)) return -3;
+  FindMissingElement(dataValueUseful);
 
   // Write a txt file with sorted results
   char *outputName;
