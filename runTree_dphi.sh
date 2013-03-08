@@ -7,9 +7,9 @@ eval `scramv1 runtime -sh`
 inputf=/afs/cern.ch/work/m/miheejo/private/TREE/pA/Mass2-5GeV_Jpsi_Histos_Runs_211371-211460.root
 #inputf=/afs/cern.ch/work/m/miheejo/private/TREE/pA/Mass2-5GeV_Jpsi_Histos_Runs_210498-211256.root
 
-prefixarr=(default_bit1_mu4GeV default_bit1_singleMuEtaAll default_bit1_singleMuEtaAllMu4GeV default_bit1_singleMuEtaBarrel)
+prefixarr=(default_bit1 default_cowboy default_sailor)
 
-labelarr=(305070 50 60 70 80 805 901235)
+labelarr=(3060)
 
 for prefix in ${prefixarr[@]}; do
   if [ ! -d $prefix ]; then
@@ -24,24 +24,19 @@ for prefix in ${prefixarr[@]}; do
   fi
 
   if [ "$prefix" == "${prefixarr[0]}" ]; then
-    echo "runType == 7"
+    echo "trigType == 0"
     for label in ${labelarr[@]}; do
-      ./Tree2Datasets =t $label =or 7 =f $inputf $prefix/cent$label >& $prefix/log_cent$label &
+      ./Tree2Datasets =t $label =s 4 =or 0 =ot 3 =oc 1 =f $inputf $prefix/cent$label >& $prefix/log_cent$label &
     done
   elif [ "$prefix" == "${prefixarr[1]}" ]; then
-    echo "runType == 8"
+    echo "trigType == 2"
     for label in ${labelarr[@]}; do
-      ./Tree2Datasets =t $label =or 8 =f $inputf $prefix/cent$label >& $prefix/log_cent$label &
+      ./Tree2Datasets =t $label =s 4 =or 0 =ot 1 =oc 1 =f $inputf $prefix/cent$label >& $prefix/log_cent$label &
     done
   elif [ "$prefix" == "${prefixarr[2]}" ]; then
-    echo "runType == 78"
+    echo "trigType == 3"
     for label in ${labelarr[@]}; do
-      ./Tree2Datasets =t $label =or 78 =f $inputf $prefix/cent$label >& $prefix/log_cent$label &
-    done
-  elif [ "$prefix" == "${prefixarr[3]}" ]; then
-    echo "runType == 9"
-    for label in ${labelarr[@]}; do
-      ./Tree2Datasets =t $label =or 9 =f $inputf $prefix/cent$label >& $prefix/log_cent$label &
+      ./Tree2Datasets =t $label =s 4 =or 0 =ot 2 =oc 1 =f $inputf $prefix/cent$label >& $prefix/log_cent$label &
     done
   fi
 

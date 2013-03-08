@@ -169,6 +169,7 @@ int main(int argc, char* argv[]) {
 
   // centrality array: at least 3 element is necessary for each array!
   // pA has 100 centrality bins
+  int cent3060Arr[] = {0,10,20,30,60,100};
   int cent50Arr[] = {0,10,20,30,40,50,100};
   int cent60Arr[] = {0,10,20,30,40,50,60,100};
   int cent305070Arr[] = {0,10,30,50,70,100};
@@ -180,7 +181,7 @@ int main(int argc, char* argv[]) {
   int cent1Arr[] = {-1,0}; //pp
   vector<int> centLimits;
 
-  // dPhi array: at least 3 element is necessary for each array!
+  6// dPhi array: at least 3 element is necessary for each array!
   float phi1Arr[] = {-1*TMath::Pi(), TMath::Pi()};
   float phi8Arr[] = {-1*TMath::Pi()*4/4, -1*TMath::Pi()*3/4, -1*TMath::Pi()*2/4, -1*TMath::Pi()*1/4, 0.0, TMath::Pi()*1/4, TMath::Pi()*2/4, TMath::Pi()*3/4, TMath::Pi()*4/4};
   float phi12Arr[] = {-1*TMath::Pi()*6/6, -1*TMath::Pi()*5/6, -1*TMath::Pi()*4/6, -1*TMath::Pi()*3/6, -1*TMath::Pi()*2/6, -1*TMath::Pi()*1/6, 0.0, TMath::Pi()*1/6, TMath::Pi()*2/6, TMath::Pi()*3/6, TMath::Pi()*4/6, TMath::Pi()*5/6, TMath::Pi()*6/6,};
@@ -193,6 +194,9 @@ int main(int argc, char* argv[]) {
   if (centInput == 50) {
     int arrSize = sizeof(cent50Arr)/sizeof(int);
     for (int i=0; i<arrSize; i++) centLimits.push_back(cent50Arr[i]);
+  } else if (centInput == 3060) {
+    int arrSize = sizeof(cent3060Arr)/sizeof(int);
+    for (int i=0; i<arrSize; i++) centLimits.push_back(cent3060Arr[i]);
   } else if (centInput == 305070) {
     int arrSize = sizeof(cent305070Arr)/sizeof(int);
     for (int i=0; i<arrSize; i++) centLimits.push_back(cent305070Arr[i]);
