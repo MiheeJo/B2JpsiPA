@@ -181,7 +181,7 @@ int main(int argc, char* argv[]) {
   int cent1Arr[] = {-1,0}; //pp
   vector<int> centLimits;
 
-  6// dPhi array: at least 3 element is necessary for each array!
+  // dPhi array: at least 3 element is necessary for each array!
   float phi1Arr[] = {-1*TMath::Pi(), TMath::Pi()};
   float phi8Arr[] = {-1*TMath::Pi()*4/4, -1*TMath::Pi()*3/4, -1*TMath::Pi()*2/4, -1*TMath::Pi()*1/4, 0.0, TMath::Pi()*1/4, TMath::Pi()*2/4, TMath::Pi()*3/4, TMath::Pi()*4/4};
   float phi12Arr[] = {-1*TMath::Pi()*6/6, -1*TMath::Pi()*5/6, -1*TMath::Pi()*4/6, -1*TMath::Pi()*3/6, -1*TMath::Pi()*2/6, -1*TMath::Pi()*1/6, 0.0, TMath::Pi()*1/6, TMath::Pi()*2/6, TMath::Pi()*3/6, TMath::Pi()*4/6, TMath::Pi()*5/6, TMath::Pi()*6/6,};
