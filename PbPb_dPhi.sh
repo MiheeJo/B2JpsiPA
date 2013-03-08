@@ -14,6 +14,7 @@ prefix=$3
 # Analysis home directory
 home=/afs/cern.ch/work/m/miheejo/private/cms442_Jpsi/src/pA/JpsiRpA/
 # Storage for batch jobs (should be under /afs)
+mkdir $(pwd)/Results/
 storage=$(pwd)/Results/$prefix
 scripts=$(pwd)/Scripts
 if [ ! -d $storage ]; then
