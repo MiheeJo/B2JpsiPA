@@ -17,7 +17,7 @@ prefix=$3
 storage=$(pwd)/Results/$prefix
 scripts=$(pwd)/Scripts
 if [ ! -d $(pwd)/Results/ ]; then
-  mkdir $storage
+  mkdir $(pwd)/Results/
 fi
 if [ ! -d $storage ]; then
   mkdir $storage
@@ -173,8 +173,8 @@ function program {
 ################################################################ 
 
 for pt in ${pt0024[@]}; do
-  program rap0024[0] $pt ${cent0024[@]}
-  program rap0024[0] $pt ${centcorser[@]}
+  program ${rap0024[0]} $pt ${cent0024[@]}
+  program ${rap0024[0]} $pt ${centcorser[@]}
 done
 
 for rap in ${rapbins[@]}; do
