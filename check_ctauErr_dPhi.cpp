@@ -113,7 +113,7 @@ int main (int argc, char* argv[]) {
       // Reduce "dataMC" with given ranges/cuts
       char reduceDS[300];
       char funct[300];
-      sprintf(reduceDS,"Jpsi_Pt>%.2f && Jpsi_Pt<%.2f && Jpsi_Y>%.2f && Jpsi_Y<%.2f",pmin,pmax,ymin,ymax);
+      sprintf(reduceDS,"Jpsi_Pt>%.2f && Jpsi_Pt<%.2f && abs(Jpsi_Y>)%.2f && abs(Jpsi_Y)<%.2f",pmin,pmax,ymin,ymax);
     //  sprintf(reduceDS,"Jpsi_CtErr > %.2f && Jpsi_CtErr < %.2f",errmin,errmax);
       cout << "reduceDS for data: " << reduceDS << endl;
 
