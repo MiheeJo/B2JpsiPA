@@ -28,7 +28,7 @@ fi
 
 ctaurange=1.0-2.0
 fracfree=0
-ispbpb=2
+ispbpb=1
 is2Widths=1
 isPEE=1
 
