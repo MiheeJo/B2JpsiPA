@@ -1,22 +1,24 @@
 #!/bin/bash
 if [ $# -ne 3 ]; then
   echo "Usage: $0 [Executable] [Input directory] [Prefix]"
+  echo "e.g. $0 Fit2DDataPbPb default_bit1 default_bit1"
   exit;
 fi
 
 executable=$(pwd)/$1
+# dirname of RooDataSet directories
 datasets=/afs/cern.ch/work/m/miheejo/private/cms442_Jpsi/src/pA/$2
 prefix=$3
 
 ################################################################ 
 ########## Script parameter setting
 ################################################################ 
-# Analysis home directory
-home=/afs/cern.ch/work/m/miheejo/private/cms442_Jpsi/src/pA/JpsiRpA/
 # Storage for batch jobs (should be under /afs)
-mkdir $(pwd)/Results/
 storage=$(pwd)/Results/$prefix
 scripts=$(pwd)/Scripts
+if [ ! -d $(pwd)/Results/ ]; then
+  mkdir $storage
+fi
 if [ ! -d $storage ]; then
   mkdir $storage
 fi
@@ -24,22 +26,22 @@ if [ ! -d $scripts ]; then
   mkdir $scripts
 fi
 
-ctaurange=2.0-3.0
+ctaurange=1.0-2.0
 fracfree=0
 ispbpb=2
 is2Widths=1
 isPEE=1
 
 # Non-prompt MC
-mc1=/afs/cern.ch/work/m/miheejo/private/cms442_Jpsi/src/pA/datasets_mc_538hi/Pbp/nonPrompt/Data2013_cent0-100_dPhi0.000-1.571.root
+mc1=/afs/cern.ch/work/m/miheejo/public/ForJpsiV2/MCTemplates/PromptReco_NPMC_MCTemplate_RooDataSet.root
 # Prompt MC
-mc2=/afs/cern.ch/work/m/miheejo/private/cms442_Jpsi/src/pA/datasets_mc_538hi/Pbp/prompt/Data2013_cent0-100_dPhi0.000-1.571.root
+mc2=/afs/cern.ch/work/m/miheejo/public/ForJpsiV2/MCTemplates/PromptReco_PRMC_MCTemplate_RooDataSet.root
 
 mSigF="sigCB2WNG1" # Mass signal function name (options: sigCB2WNG1 (default), signalCB3WN)
 mBkgF="expFunct" # Mass background function name (options: expFunct (default), polFunct)
 
 weight=0  #0: Do NOT weight, 1: Do weight
-eventplane="etHFm" # Name of eventplane (etHFp, etHFm, etHF(default))
+eventplane="etHF" # Name of eventplane (etHFp, etHFm, etHF(default))
 runOpt=4 # Inclusive mass fit (options: 4(default), 3(Constrained fit), 5(_mb in 2010 analysis))
 anaBct=1 #0: do b-fit(not-analytic fit for b-lifetime), 1: do b-fit(analytic fit for b-lifetime), 2: do NOT b-fit
 #0: 2 Resolution functions & fit on data, 1: 1 Resolution function & fit on data,
