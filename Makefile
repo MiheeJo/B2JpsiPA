@@ -62,5 +62,8 @@ Fit2DDatapp:	$(INCLUDEDIR)fit2DData_pp.cpp
 CTauErr:	$(INCLUDEDIR)check_ctauErr.cpp
 	$(CPP) $(CPPFLAGS) -o CTauErr $(OUTLIB)/*.o $(GLIBS) $ $<
 
+CTauErrdPhi:	$(INCLUDEDIR)check_ctauErr_dPhi.cpp
+	$(CPP) $(CPPFLAGS) -o CTauErrdPhi $(OUTLIB)/*.o $(GLIBS) $ $<
+
 clean:
 	rm -f $(OUTLIB)*.o $(OUTLIB)*.so
