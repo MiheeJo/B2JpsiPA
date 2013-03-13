@@ -53,7 +53,7 @@ static int runType = 0;
 static bool doWeighting = false;
 
 //0: don't care about RPAng, 1: Pick events with RPAng != -10
-static bool checkRPNUM = true;
+static bool checkRPNUM = false;
 
 static const double Jpsi_MassMin=2.6;
 static const double Jpsi_MassMax=3.5;
@@ -169,7 +169,6 @@ int main(int argc, char* argv[]) {
 
   // centrality array: at least 3 element is necessary for each array!
   // pA has 100 centrality bins
-  int cent3060Arr[] = {0,10,20,30,60,100};
   int cent50Arr[] = {0,10,20,30,40,50,100};
   int cent60Arr[] = {0,10,20,30,40,50,60,100};
   int cent305070Arr[] = {0,10,30,50,70,100};
@@ -194,9 +193,6 @@ int main(int argc, char* argv[]) {
   if (centInput == 50) {
     int arrSize = sizeof(cent50Arr)/sizeof(int);
     for (int i=0; i<arrSize; i++) centLimits.push_back(cent50Arr[i]);
-  } else if (centInput == 3060) {
-    int arrSize = sizeof(cent3060Arr)/sizeof(int);
-    for (int i=0; i<arrSize; i++) centLimits.push_back(cent3060Arr[i]);
   } else if (centInput == 305070) {
     int arrSize = sizeof(cent305070Arr)/sizeof(int);
     for (int i=0; i<arrSize; i++) centLimits.push_back(cent305070Arr[i]);
@@ -240,7 +236,7 @@ int main(int argc, char* argv[]) {
       for (int i=0; i<arrSize; i++) dPhiLimits.push_back(dPhi6Arr[i]);
     }
   } else {  //Use J/psi phi
-    if (dPhiRegions == 1) {
+/*    if (dPhiRegions == 1) {
       int arrSize = sizeof(phi1Arr)/sizeof(float);
       for (int i=0; i<arrSize; i++) dPhiLimits.push_back(phi1Arr[i]);
     } else if (dPhiRegions == 8) {
@@ -249,6 +245,19 @@ int main(int argc, char* argv[]) {
     } else if (dPhiRegions == 12) {
       int arrSize = sizeof(phi12Arr)/sizeof(float);
       for (int i=0; i<arrSize; i++) dPhiLimits.push_back(phi12Arr[i]);
+    }*/
+    if (dPhiRegions == 1) {
+      int arrSize = sizeof(dPhi1Arr)/sizeof(float);
+      for (int i=0; i<arrSize; i++) dPhiLimits.push_back(dPhi1Arr[i]);
+    } else if (dPhiRegions == 2) {
+      int arrSize = sizeof(dPhi2Arr)/sizeof(float);
+      for (int i=0; i<arrSize; i++) dPhiLimits.push_back(dPhi2Arr[i]);
+    } else if (dPhiRegions == 4) {
+      int arrSize = sizeof(dPhi4Arr)/sizeof(float);
+      for (int i=0; i<arrSize; i++) dPhiLimits.push_back(dPhi4Arr[i]);
+    } else if (dPhiRegions == 6) {
+      int arrSize = sizeof(dPhi6Arr)/sizeof(float);
+      for (int i=0; i<arrSize; i++) dPhiLimits.push_back(dPhi6Arr[i]);
     }
   }
   cout << "\ndPhiRegions: ";
@@ -1108,8 +1117,9 @@ bool checkRunType(const struct Condition Jpsi, const TLorentzVector* m1P, const 
     if (m1P->Pt() > 4.0 && m2P->Pt() > 4.0) return true;
     else return false;
   }
+  // For Pbp (first run period)
   else if (runType == 8) {
-    if (m1P->Eta() > -2.4 && m2P->Eta() > -2.4 && m1P->Eta() < 1.46 && m2P->Eta() < 1.46) return true;
+    if (m1P->Eta() > -2.4 && m2P->Eta() > -2.4 && m1P->Eta() < 1.47 && m2P->Eta() < 1.47) return true;
     else return false;
   }
   else if (runType == 9) {
@@ -1117,11 +1127,28 @@ bool checkRunType(const struct Condition Jpsi, const TLorentzVector* m1P, const 
     else return false;
   }
   else if (runType == 78) {
-    if ((m1P->Eta() > -2.4 && m2P->Eta() > -2.4 && m1P->Eta() < 1.46 && m2P->Eta() < 1.46) && (m1P->Pt() > 4.0 && m2P->Pt() > 4.0)) return true;
+    if ((m1P->Eta() > -2.4 && m2P->Eta() > -2.4 && m1P->Eta() < 1.47 && m2P->Eta() < 1.47) && (m1P->Pt() > 4.0 && m2P->Pt() > 4.0)) return true;
     else return false;
   }
   else if (runType == 79) {
     if ((m1P->Eta() > -1.47 && m2P->Eta() > -1.47 && m1P->Eta() < 0.53 && m2P->Eta() < 0.53) && (m1P->Pt() > 4.0 && m2P->Pt() > 4.0)) return true;
+    else return false;
+  }
+  // For pPb (second run period)
+  else if (runType == 10) {
+    if (m1P->Eta() > -1.47 && m2P->Eta() > -1.47 && m1P->Eta() < 2.4 && m2P->Eta() < 2.4) return true;
+    else return false;
+  }
+  else if (runType == 11) {
+    if (m1P->Eta() > -0.53 && m2P->Eta() > -0.53 && m1P->Eta() < 1.47 && m2P->Eta() < 1.47) return true;
+    else return false;
+  }
+  else if (runType == 710) {
+    if ((m1P->Eta() > -1.47 && m2P->Eta() > -1.47 && m1P->Eta() < 2.4 && m2P->Eta() < 2.4) && (m1P->Pt() > 4.0 && m2P->Pt() > 4.0)) return true;
+    else return false;
+  }
+  else if (runType == 711) {
+    if ((m1P->Eta() > -0.53 && m2P->Eta() > -0.53 && m1P->Eta() < 1.47 && m2P->Eta() < 1.47) && (m1P->Pt() > 4.0 && m2P->Pt() > 4.0)) return true;
     else return false;
   }
 
