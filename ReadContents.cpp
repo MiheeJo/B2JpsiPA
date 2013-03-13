@@ -15,12 +15,13 @@ using namespace std;
 
 // Pbp
 //static string str_rap[] = {"-2.4--0.47","-0.47-1.47"};
-static string str_rap[] = {"-2.4--1.47","-1.47--0.47","-0.47-0.53","0.53-1.47"};
+//static string str_rap[] = {"-2.4--1.47","-1.47--0.47","-0.47-0.53","0.53-1.47"};
 //static string str_rap[] = {"-2.4--1.47","-1.47--0.47","-0.47-0.53","0.53-1.47","1.47-2.4"}; 
 //static string str_rap[] = {"-1.47--0.47","-0.47-0.53"};
 // pPb
 //static string str_rap[] = {"0.47-2.4","-1.46-0.47"};
-//static string str_rap[] = {"-1.47--0.53","-0.53-0.47","0.47-1.47","1.47-2.4"};
+static string str_rap[] = {"-1.47--0.53","-0.53-0.47","0.47-1.47","1.47-2.4"};
+//static string str_rap[] = {"-1.47-0.53","-0.53-0.47","0.47-1.47","1.47-2.4"};
 //static string str_rap[] = {"-2.4--1.47","-1.47--0.53","-0.53-0.47","0.47-1.47","1.47-2.4"};
 //static string str_rap[] = {"-0.53-0.47","0.47-1.47"};
 
@@ -125,7 +126,8 @@ bool FindMissingElement(std::list<eachRow> data) {
           eachRow test;
           test.rap = rapidity[i];
           test.pt = pt[j];
-          if (CheckNotValidBins(test)) continue;
+          test.cent = centrality[k];
+          if (CheckNotValidBins(test)) continue;  //skip not-valid bins
           
           reference.push_back(rapidity[i] + "_" + pt[j] + "_" + centrality[k]);
         }
@@ -152,6 +154,52 @@ bool FindMissingElement(std::list<eachRow> data) {
 
   } else false; // data have all bins in the defined array!
 }
+
+void FillNotValidBins(std::list<eachRow> &data) {
+  std::list<eachRow>::iterator it;
+
+  for (int i=0; i<nRap; i++) {
+    for (int j=0; j<nPt; j++) {
+      for (int k=0; k<nCent; k++) {
+        // If some entries are not-valid bins, ignore them
+        eachRow test;
+        test.rap = rapidity[i];
+        test.pt = pt[j];
+        test.cent = centrality[k];
+        test.nsig = 0;
+        test.nsigerr = 0;
+        test.npr = 0;
+        test.nprerr = 0;
+        test.nnp = 0;
+        test.nnperr = 0;
+        
+        // Check if some bins are outside of acceptance region
+        // -> Put 0 +/- 0 for these bins
+        if (CheckNotValidBins(test)) {
+          bool sameFound = false;
+          for (it=data.begin(); it!=data.end(); it++) {
+            if ( ((*it).rap == test.rap) && ((*it).pt == test.pt) && ((*it).cent == test.cent) ) {
+              (*it).nsig = 0;
+              (*it).nsigerr = 0;
+              (*it).npr = 0;
+              (*it).nprerr = 0;
+              (*it).nnp = 0;
+              (*it).nnperr = 0;
+              sameFound = true;
+            } else continue;
+          } // loop over data to find not-valid bins
+          if (!sameFound) {
+            data.push_back(test);
+          } else continue;
+        } // found not-valid bin in reference array
+
+      } // cent loop
+    } // pt loop
+  } // rap loop
+
+}
+
+
 
 int main(int argc, char *argv[]) {
   // Read fit result summary file
@@ -222,9 +270,6 @@ int main(int argc, char *argv[]) {
   }
   finput.close();
   
-  // Remove duplicate entries (It happens when a bin doesn't have a correct fit result)
-  dataValueUseful.unique(CheckSameEntries);
-
   // Check if some bins are outside of acceptance region
   for (it_eachRow=dataValueUseful.begin(); it_eachRow!=dataValueUseful.end(); it_eachRow++) {
     if (CheckNotValidBins(*it_eachRow)) {
@@ -234,11 +279,19 @@ int main(int argc, char *argv[]) {
   }
 
   // Sort the final value array with given order
-  dataValueUseful.sort(ComparatorWithArray);
+//  dataValueUseful.sort(ComparatorWithArray);
 
   // If there are missing entries in dataValueUseful, find which bin is missing
-//  if (FindMissingElement(dataValueUseful)) return -3;
-  FindMissingElement(dataValueUseful);
+//  FindMissingElement(dataValueUseful);
+
+  // Fill up not-valid bins with 0 for signals and errors
+  FillNotValidBins(dataValueUseful);
+
+  // Sort the final value array with given order
+  dataValueUseful.sort(ComparatorWithArray);
+
+  // Remove duplicate entries (It happens when a bin doesn't have a correct fit result)
+  dataValueUseful.unique(CheckSameEntries);
 
   // Write a txt file with sorted results
   char *outputName;
