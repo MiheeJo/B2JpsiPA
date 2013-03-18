@@ -26,7 +26,7 @@ fi
 
 ctaurange=2.0-3.0
 fracfree=0
-ispbpb=2
+ispbpb=1
 is2Widths=1
 isPEE=1
 
@@ -42,7 +42,7 @@ mSigF="sigCB2WNG1" # Mass signal function name (options: sigCB2WNG1 (default), s
 mBkgF="expFunct" # Mass background function name (options: expFunct (default), polFunct)
 
 weight=0  #0: Do NOT weight, 1: Do weight
-eventplane="etHFm" # Name of eventplane (etHFp, etHFm, etHF(default))
+eventplane="etHF" # Name of eventplane (etHFp, etHFm, etHF(default))
 runOpt=4 # Inclusive mass fit (options: 4(default), 3(Constrained fit), 5(_mb in 2010 analysis))
 anaBct=1 #0: do b-fit(not-analytic fit for b-lifetime), 1: do b-fit(analytic fit for b-lifetime), 2: do NOT b-fit
 #0: 2 Resolution functions & fit on data, 1: 1 Resolution function & fit on data,
@@ -50,10 +50,7 @@ anaBct=1 #0: do b-fit(not-analytic fit for b-lifetime), 1: do b-fit(analytic fit
 resOpt=2
 ctauBkg=0 #0: 1 ctau bkg, 1: 2 ctau bkg with signal region fitting, 2: 2 ctau bkg with step function
 
-rapbins=(-1.47--0.53 -0.53-0.47 0.47-1.47 1.47-2.4 -1.47-0.47 0.47-2.4 -0.53-1.47)
-#centfiner=(0-5 5-10 10-15 15-20 20-25 25-30 30-35 35-40 40-45 45-50 50-55 55-60 60-65 65-70) #0-1 1-2 2-4 4-6 6-8 8-10 10-12 12-15 15-18 18-21 21-24 24-27 27-30 30-33 33-36 36-39 39-42 42-45 45-48 48-51 51-54 54-57 57-60 60-65 65-70 70-75 75-80 80-90 90-100)
-centcorser=(0-10 10-20 20-30 30-40 40-50 50-60 60-70 70-100 60-100 50-100 50-70 10-30 30-50)
-centcorser2=(0-10 10-30 30-50 50-100)
+rapbins=(0.0-2.4 0.0-1.2 1.2-1.6 1.6-2.4)
 ptlower=(0.0-3.0 3.0-6.5 0.0-6.5)
 ptlower2=(3.0-6.5)
 ptcorser=(6.5-10.0 10.0-30.0 6.5-8.0 8.0-10.0 10.0-13.0 13.0-30.0)
