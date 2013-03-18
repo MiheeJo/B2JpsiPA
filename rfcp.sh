@@ -5,9 +5,9 @@ submitdir="$(pwd)/Scripts/"
 ########## Castor directory that contains results
 indir_="$(pwd)/Results/"
 ########## Directory where python & root scripts are located
-workdir="/afs/cern.ch/work/m/miheejo/private/cms442_Jpsi/src/pA/JpsiRaa/"
+workdir="/afs/cern.ch/work/m/miheejo/private/cms442_Jpsi/src/pA/JpsiRpA/"
 ########## Prefix of jobs
-prefixarr=(Pbp4.65nb_yGT-0.47_singleMuEtaAll        Pbp4.65nb_yLT-0.47_singleMuEtaAll        pPb18.38nb_yGT-0.47_singleMuEtaAll        pPb18.38nb_yLT-0.47_singleMuEtaAll Pbp4.65nb_yGT-0.47_singleMuEtaAllMu4GeV  Pbp4.65nb_yLT-0.47_singleMuEtaAllMu4GeV  pPb18.38nb_yGT-0.47_singleMuEtaAllMu4GeV  pPb18.38nb_yLT-0.47_singleMuEtaAllMu4GeV Pbp4.65nb_yGT-0.47_singleMuEtaBarrel     Pbp4.65nb_yLT-0.47_singleMuEtaBarrel     pPb18.38nb_yGT-0.47_singleMuEtaBarrel     pPb18.38nb_yLT-0.47_singleMuEtaBarrel)
+prefixarr=(pPb_singleMuEtaAll_bit1 Pbp_singleMuEtaAll_bit1)
 
 ############################################################
 eval `scramv1 runtime -csh`
@@ -41,7 +41,7 @@ for prefix in ${prefixarr[@]}; do
   # Summarize results
   mkdir /tmp/miheejo/$prefix/summary
 #  mv fit_cppnumbers fit_parameters fit_table saved_histo.root $indir/$prefix/summary
-  mv fit_cppnumbers fit_parameters fit_table /tmp/miheejo/$prefix/summary
+  mv fit_* /tmp/miheejo/$prefix/summary
 
   ls $submitdir | grep $prefix | awk 'BEGIN{FS=".csh"}; {print $1}' > $submitdir/$prefix\_submit
   ls /tmp/miheejo/$prefix | grep txt | awk 'BEGIN{FS=".txt"}; {print $1}' > $submitdir/$prefix\_txt
