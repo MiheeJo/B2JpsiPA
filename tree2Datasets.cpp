@@ -178,7 +178,7 @@ int main(int argc, char* argv[]) {
   int cent805Arr[] = {0,5,10,15,20,25,30,35,40,45,50,55,60,65,70,80,100};
   int cent901235Arr[] = {0,1,2,4,6,8,10,12,15,18,21,24,27,30,33,36,39,42,45,48,51,54,57,60,65,70,75,80,90,100};
   
-  int cent1Arr[] = {-1,0}; //pp
+  int cent1Arr[] = {0,1}; //pp
   vector<int> centLimits;
 
   // dPhi array: at least 3 element is necessary for each array!
