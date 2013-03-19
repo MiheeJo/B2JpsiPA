@@ -370,11 +370,12 @@ int main (int argc, char* argv[]) {
         delete redDataTmp;
         sprintf(reduceDS,"Jpsi_CtErr > %.3f && Jpsi_CtErr < %.3f",minSig,maxSig);
         redDataTmp = (RooDataSet*)redData->reduce(reduceDS);
+        tmpMin = minSig; tmpMax = maxSig;
       }
 
       if ((tmpMax - tmpMin) < 0.008) {
           cout << "Maximum range is less than minimum! Maybe too few events in this bin.\n";
-          maxSig = minSig + 0.008;
+          tmpMax = tmpMin + 0.008;
       }
 
 
