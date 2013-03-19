@@ -671,7 +671,8 @@ int main(int argc, char* argv[]) {
         theRPAng = 0;
         theRPAng22 = 0;
         theRPAng23 = 0;
-        Jpsi.thedPhi = JP->Phi();
+//        Jpsi.thedPhi = JP->Phi();
+        Jpsi.thedPhi = TMath::Abs(reducedPhi(JP->Phi()));
         Jpsi.thedPhi22 = Jpsi.thedPhi;
         Jpsi.thedPhi23 = Jpsi.thedPhi;
       }
