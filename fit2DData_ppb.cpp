@@ -171,18 +171,20 @@ int main (int argc, char* argv[]) {
     reduceDSstr = "Jpsi_Type == Jpsi_Type::GG &&\
                   (MCType != MCType::NP || Jpsi_CtTrue>0.0001) &&\
                   (MCType == MCType::PR || MCType == MCType::NP)";
-    if (inOpt.isPbPb == 1)
+    redDataCut = (RooDataSet*)redData->Clone();
+/*    if (inOpt.isPbPb == 1)
       redDataCut = (RooDataSet*)redData->reduce("Jpsi_Type == Jpsi_Type::GG");
     else
-      redDataCut = (RooDataSet*)redData_2->reduce("Jpsi_Type == Jpsi_Type::GG");
+      redDataCut = (RooDataSet*)redData_2->reduce("Jpsi_Type == Jpsi_Type::GG");*/
   } else if (inOpt.isGG == 1) {
     reduceDSstr = "(Jpsi_Type == Jpsi_Type::GT || Jpsi_Type == Jpsi_Type::GG) &&\
                   (MCType != MCType::NP || Jpsi_CtTrue > 0.0001) &&\
                   (MCType == MCType::PR || MCType == MCType::NP)";
-    if (inOpt.isPbPb == 1)
+    redDataCut = (RooDataSet*)redData->Clone();
+/*    if (inOpt.isPbPb == 1)
       redDataCut = (RooDataSet*)redData->reduce("Jpsi_Type == Jpsi_Type::GT || Jpsi_Type == Jpsi_Type::GG");
     else
-      redDataCut = (RooDataSet*)redData_2->reduce("Jpsi_Type == Jpsi_Type::GT || Jpsi_Type == Jpsi_Type::GG");
+      redDataCut = (RooDataSet*)redData_2->reduce("Jpsi_Type == Jpsi_Type::GT || Jpsi_Type == Jpsi_Type::GG");*/
   } else {
     reduceDSstr = "(MCType != MCType::NP || Jpsi_CtTrue>0.0001) &&\
                    (MCType == MCType::PR || MCType == MCType::NP)";
