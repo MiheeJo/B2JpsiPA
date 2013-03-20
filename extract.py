@@ -121,7 +121,7 @@ for f in range(2,len(sys.argv)):
   if f is 2:
     foutput.write(header+"\n")
   dataparfin = sorted(datapar, key=itemgetter(0,1,2,3))
-  for i in datapar:
+  for i in dataparfin:
     line = ""
     for j in i:
       line = line+str(j)+"\t"
