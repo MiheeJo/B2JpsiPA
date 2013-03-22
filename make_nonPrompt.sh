@@ -1,16 +1,15 @@
 #!/bin/bash
 eval `scramv1 runtime -sh`
 
-input=/afs/cern.ch/work/m/miheejo/private/TREE/NonPromptJpsi_MCTemplate_cms538HI.root
-#input=/afs/cern.ch/work/m/miheejo/private/TREE/PromptJpsi_MCTemplate_cms538HI.root
+input=/afs/cern.ch/work/m/miheejo/private/TREE/pA/NPMC_Histos.root
 
-prefixarr=(nonPrompt)
-#prefixarr=(prompt)
-#prefixarr=(default_cowboy default_sailor)
-#prefixarr=(default_bit1 default_cowboy default_sailor)
+prefixarr=(nonPrompt_mu4GeV_bit1 nonPrompt_singleMuEtaAll_bit1 nonPrompt_singleMuEtaAllMu4GeV_bit1 nonPrompt_singleMuEtaBarrel_bit1 nonPrompt_default_bit1)
 for prefix in ${prefixarr[@]}; do
+  if [ ! -d Pbp -o ! -d pPb ]; then
+    mkdir Pbp pPb
+  fi
   if [ ! -d $prefix ]; then
-    mkdir $prefix
+    mkdir Pbp/$prefix pPb/$prefix
   else
     echo " "
     echo "===== Target directory exists! Check is it okay to delete or not.";
@@ -19,6 +18,21 @@ for prefix in ${prefixarr[@]}; do
 done
 
 for prefix in ${prefixarr[@]}; do
-#  ./Tree2DatasetspPb =t 40100 =s 1 =op -1 =ot 3 =or 0 =w 0 =f $input $prefix >& $prefix/log_cent40100 &
-  ./Tree2DatasetsPbp =t 40100 =s 1 =op -1 =ot 3 =or 0 =w 0 =f $input $prefix >& $prefix/log_cent40100 &
+  if [ "$prefix" == "${prefixarr[0]}" ]; then
+    ./Tree2DatasetspPb =t 40100 =or 7 =f $input pPb/$prefix >& pPb/$prefix/log_cent40100 &
+    ./Tree2DatasetsPbp =t 40100 =or 7 =f $input Pbp/$prefix >& Pbp/$prefix/log_cent40100 &
+  elif [ "$prefix" == "${prefixarr[1]}" ]; then
+    ./Tree2DatasetspPb =t 40100 =or 10 =f $input pPb/$prefix >& pPb/$prefix/log_cent40100 &
+    ./Tree2DatasetsPbp =t 40100 =or 8 =f $input Pbp/$prefix >& Pbp/$prefix/log_cent40100 &
+  elif [ "$prefix" == "${prefixarr[2]}" ]; then
+    ./Tree2DatasetspPb =t 40100 =or 710 =f $input pPb/$prefix >& pPb/$prefix/log_cent40100 &
+    ./Tree2DatasetsPbp =t 40100 =or 78 =f $input Pbp/$prefix >& Pbp/$prefix/log_cent40100 &
+  elif [ "$prefix" == "${prefixarr[3]}" ]; then
+    ./Tree2DatasetspPb =t 40100 =or 11 =f $input pPb/$prefix >& pPb/$prefix/log_cent40100 &
+    ./Tree2DatasetsPbp =t 40100 =or 9 =f $input Pbp/$prefix >& Pbp/$prefix/log_cent40100 &
+  elif [ "$prefix" == "${prefixarr[4]}" ]; then
+    ./Tree2DatasetspPb =t 40100 =or 0 =f $input pPb/$prefix >& pPb/$prefix/log_cent40100 &
+    ./Tree2DatasetsPbp =t 40100 =or 0 =f $input Pbp/$prefix >& Pbp/$prefix/log_cent40100 &
+  fi
+
 done
