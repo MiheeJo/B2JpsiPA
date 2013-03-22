@@ -1192,6 +1192,45 @@ bool checkRunType(const struct Condition Jpsi, const TLorentzVector* m1P, const 
     if (TrkHits && Matches && InnerChiMeas && MuHits && GlobalChi) return true;
     else return false;
   }
+  else if (runType == 7) {
+    if (m1P->Pt() > 4.0 && m2P->Pt() > 4.0) return true;
+    else return false;
+  }
+  // For Pbp (first run period)
+  else if (runType == 8) {
+    if (m1P->Eta() > -2.4 && m2P->Eta() > -2.4 && m1P->Eta() < 1.47 && m2P->Eta() < 1.47) return true;
+    else return false;
+  }
+  else if (runType == 9) {
+    if (m1P->Eta() > -1.47 && m2P->Eta() > -1.47 && m1P->Eta() < 0.53 && m2P->Eta() < 0.53) return true;
+    else return false;
+  }
+  else if (runType == 78) {
+    if ((m1P->Eta() > -2.4 && m2P->Eta() > -2.4 && m1P->Eta() < 1.47 && m2P->Eta() < 1.47) && (m1P->Pt() > 4.0 && m2P->Pt() > 4.0)) return true;
+    else return false;
+  }
+  else if (runType == 79) {
+    if ((m1P->Eta() > -1.47 && m2P->Eta() > -1.47 && m1P->Eta() < 0.53 && m2P->Eta() < 0.53) && (m1P->Pt() > 4.0 && m2P->Pt() > 4.0)) return true;
+    else return false;
+  }
+  // For pPb (second run period)
+  else if (runType == 10) {
+    if (m1P->Eta() > -1.47 && m2P->Eta() > -1.47 && m1P->Eta() < 2.4 && m2P->Eta() < 2.4) return true;
+    else return false;
+  }
+  else if (runType == 11) {
+    if (m1P->Eta() > -0.53 && m2P->Eta() > -0.53 && m1P->Eta() < 1.47 && m2P->Eta() < 1.47) return true;
+    else return false;
+  }
+  else if (runType == 710) {
+    if ((m1P->Eta() > -1.47 && m2P->Eta() > -1.47 && m1P->Eta() < 2.4 && m2P->Eta() < 2.4) && (m1P->Pt() > 4.0 && m2P->Pt() > 4.0)) return true;
+    else return false;
+  }
+  else if (runType == 711) {
+    if ((m1P->Eta() > -0.53 && m2P->Eta() > -0.53 && m1P->Eta() < 1.47 && m2P->Eta() < 1.47) && (m1P->Pt() > 4.0 && m2P->Pt() > 4.0)) return true;
+    else return false;
+  }
+
 
   return true;
 }
