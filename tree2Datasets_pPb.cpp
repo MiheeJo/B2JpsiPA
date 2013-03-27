@@ -116,31 +116,28 @@ int main(int argc, char* argv[]) {
         switch (tmpargv[1]) {
           case 't':
             centInput = atoi(argv[i+1]);
-            cout << "centRegions: " << centInput << endl;
             break;
           case 's':
             dPhiRegions = atoi(argv[i+1]);
-            cout << "dPhiRegions: " << dPhiRegions << endl;
             break;
           case 'f':
             fileName = argv[i+1];
-            cout << "fileName: " << fileName << endl;
             outputDir = argv[i+2];
-            cout << "output directory: " << outputDir << endl;
             break;
           case 'o':
             switch (tmpargv[2]) {
               case 'p':
                 RPNUM = atoi(argv[i+1]);
-                cout << "RPNUM: " << RPNUM << endl;
                 break;
               case 't':
                 trigType = atoi(argv[i+1]);
-                cout << "trigType: "<< trigType << endl;
                 break;
               case 'r':
                 runType = atoi(argv[i+1]);
-                cout << "runType: " << runType << endl;
+                break;
+              case 'c':
+                if (0 == atoi(argv[i+1])) checkRPNUM = false;
+                else checkRPNUM = true;
                 break;
             }
             break;
@@ -150,15 +147,23 @@ int main(int argc, char* argv[]) {
             break;
           case 'e':
             initev = atoi(argv[i+1]);
-            cout << "start event #: " << initev << endl;
             nevt = atoi(argv[i+2]);
-            cout << "end event #: " << nevt << endl;
             break;
         }
       }
     } // end of checking switch loop
   } // end of checking options
+
+  cout << "centRegions: " << centInput << endl;
+  cout << "dPhiRegions: " << dPhiRegions << endl;
+  cout << "fileName: " << fileName << endl;
+  cout << "output directory: " << outputDir << endl;
+  cout << "trigType: "<< trigType << endl;
+  cout << "runType: " << runType << endl;
   cout << "checkRPNUM: " << checkRPNUM << endl;
+  cout << "RPNUM: " << RPNUM << endl;
+  cout << "start event #: " << initev << endl;
+  cout << "end event #: " << nevt << endl;
 
   // centrality array: at least 3 element is necessary for each array!
   int cent5Arr[] = {0,4,8,12,24,40}; //0 10 20 30 60 100
