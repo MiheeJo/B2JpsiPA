@@ -31,12 +31,12 @@ is2Widths=1
 isPEE=1
 
 # Non-prompt MC
-mc1=/afs/cern.ch/work/m/miheejo/private/cms442_Jpsi/src/pA/datasets_mc_538hi/pPb/nonPrompt_singleMuEtaAll_bit1/Data2013_cent0-100_dPhi0.000-1.571.root
+mc1=/afs/cern.ch/work/m/miheejo/private/cms442_Jpsi/src/pA/datasets_mc_538hi/pPb/nonPrompt_default_bit1/Data2013_cent0-100_dPhi0.000-1.571.root
 # Prompt MC
-mc2=/afs/cern.ch/work/m/miheejo/private/cms442_Jpsi/src/pA/datasets_mc_538hi/pPb/prompt_singleMuEtaAll_bit1/Data2013_cent0-100_dPhi0.000-1.571.root
+mc2=/afs/cern.ch/work/m/miheejo/private/cms442_Jpsi/src/pA/datasets_mc_538hi/pPb/prompt_default_bit1/Data2013_cent0-100_dPhi0.000-1.571.root
 
 # Choose ctau error file
-ctauErrFile=/afs/cern.ch/work/m/miheejo/private/cms442_Jpsi/src/pA/ctauErrCheck/pPb12.55nb/ctauErrRange_singleMuEtaAll_bit1.txt;
+ctauErrFile=/afs/cern.ch/work/m/miheejo/private/cms442_Jpsi/src/pA/ctauErrCheck/pPb12.55nb/ctauErrRange_default_bit1.txt;
 
 mSigF="sigCB2WNG1" # Mass signal function name (options: sigCB2WNG1 (default), signalCB3WN)
 mBkgF="expFunct" # Mass background function name (options: expFunct (default), polFunct)
@@ -50,7 +50,7 @@ anaBct=1 #0: do b-fit(not-analytic fit for b-lifetime), 1: do b-fit(analytic fit
 resOpt=2
 ctauBkg=0 #0: 1 ctau bkg, 1: 2 ctau bkg with signal region fitting, 2: 2 ctau bkg with step function
 
-rapbins=(-1.47--0.53 -0.53-0.47 0.47-1.47 1.47-2.4 -1.47-0.47 0.47-2.4 -0.53-1.47)
+rapbins=(-2.4--1.47 -1.47--0.53 -0.53-0.47 0.47-1.47 1.47-2.4 -1.47-0.47 0.47-2.4 -0.53-1.47)
 #centfiner=(0-5 5-10 10-15 15-20 20-25 25-30 30-35 35-40 40-45 45-50 50-55 55-60 60-65 65-70) #0-1 1-2 2-4 4-6 6-8 8-10 10-12 12-15 15-18 18-21 21-24 24-27 27-30 30-33 33-36 36-39 39-42 42-45 45-48 48-51 51-54 54-57 57-60 60-65 65-70 70-75 75-80 80-90 90-100)
 centcorser=(0-10 10-20 20-30 30-40 40-50 50-60 60-70 70-100 60-100 50-100 50-70 10-30 30-50)
 centcorser2=(0-10 10-30 30-50 50-100)
@@ -98,7 +98,7 @@ function program {
       printf "cd %s\n" $(pwd) >> $scripts/$work.csh
       printf "eval \`scramv1 runtime -csh\`\n" >> $scripts/$work.csh
       printf "cd -\n" >> $scripts/$work.csh
-      printf "cp %s/%s %s/fit2DData.h %s/fit2DData_ppb.cpp .\n" $scripts $work.csh $(pwd) $(pwd) >> $scripts/$work.csh
+      printf "cp %s/%s %s/fit2DData.h %s/fit2DData_ppb.cpp .\n" $scripts/$work.csh $(pwd) $(pwd) >> $scripts/$work.csh
 
       ctauerrMB=$(awk -v rap=$rap -v pt=$pt  '{if ($1==rap && $2==pt && $3=="0-100" && $4=="0.000-1.571") {print $5}  }' < $ctauErrFile)
       ctauerrPhi=$(awk -v rap=$rap -v pt=$pt -v cent=$cent -v dphi=0.000-1.571 '{if ($1==rap && $2==pt && $3==cent && $4==dphi) {print $5}  }' < $ctauErrFile)
@@ -185,5 +185,5 @@ for rap in ${rapbins[@]}; do
 
   # cent dependence
   program $rap 6.5-30.0 ${centcorser[@]}
-  
+
 done
