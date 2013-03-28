@@ -98,7 +98,7 @@ function program {
       printf "cd %s\n" $(pwd) >> $scripts/$work.csh
       printf "eval \`scramv1 runtime -csh\`\n" >> $scripts/$work.csh
       printf "cd -\n" >> $scripts/$work.csh
-      printf "cp %s/%s %s/fit2DData.h %s/fit2DData_pbp.cpp .\n" $scripts/$work.csh $(pwd) $(pwd) >> $scripts/$work.csh
+      printf "cp %s/%s %s/fit2DData.h %s/fit2DData_pbp.cpp .\n" $scripts $work.csh $(pwd) $(pwd) >> $scripts/$work.csh
 
       ctauerrMB=$(awk -v rap=$rap -v pt=$pt  '{if ($1==rap && $2==pt && $3=="0-100" && $4=="0.000-1.571") {print $5}  }' < $ctauErrFile)
       ctauerrPhi=$(awk -v rap=$rap -v pt=$pt -v cent=$cent -v dphi=0.000-1.571 '{if ($1==rap && $2==pt && $3==cent && $4==dphi) {print $5}  }' < $ctauErrFile)
