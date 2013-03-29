@@ -41,6 +41,7 @@ for prefix in ${prefixarr[@]}; do
   # Summarize results
   mkdir /tmp/miheejo/$prefix/summary
 #  mv fit_cppnumbers fit_parameters fit_table saved_histo.root $indir/$prefix/summary
+  cp fit_cppnumbers fit_parameters fit_table fit_errorbins saved_histo.root /tmp/miheejo/$prefix/summary
   mv fit_* /tmp/miheejo/$prefix/summary
 
   ls $submitdir | grep $prefix | awk 'BEGIN{FS=".csh"}; {print $1}' > $submitdir/$prefix\_submit
